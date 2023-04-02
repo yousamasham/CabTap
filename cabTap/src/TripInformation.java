@@ -40,12 +40,18 @@ public class TripInformation {
         return rideFare;
     }
 
-    protected void setUsersEncountered(ArrayList users){
-        usersEncountered = users; 
+    // once offer is accepted, user ID will be added to the list of riders for the ride.
+    protected void setUsersEncountered(String users){
+        usersEncountered.add(users); 
     }
 
     protected ArrayList<String> getUsersEncountered(){
         return usersEncountered;
+    }
+
+    // list of riders for the ride will be deleted once the ride is completed.
+    protected void clearUsers(){
+        usersEncountered.clear();; 
     }
 }
 

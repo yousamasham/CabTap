@@ -1,25 +1,23 @@
 import java.security.NoSuchAlgorithmException;
 import javax.crypto.*;
 import javax.crypto.spec.GCMParameterSpec;
-import javax.lang.model.type.ArrayType;
-
 import java.util.ArrayList;
 import java.util.Base64;
 
-public class encryptionController {
+public class EncryptionController {
     private SecretKey key;
     private Cipher cipher;
     private Cipher decryptCipher;
 
     // init function to generate key
-    encryptionController() throws NoSuchAlgorithmException{
+    EncryptionController() throws NoSuchAlgorithmException{
         KeyGenerator keyGenerator = KeyGenerator.getInstance("AES");
         keyGenerator.init(128);
         key = keyGenerator.generateKey();
     }
 
     // (LegalName, UserName, Password, PhoneNumber)
-    protected ArrayList<Object> encryptProfileCredentials(ArrayList<String> profile) throws Exception{
+    private ArrayList<Object> encryptProfileCredentials(ArrayList<String> profile) throws Exception{
         ArrayList<Object> byteList = new ArrayList<Object>();
         for(int pass = 0; pass < 2; pass++){
             byteList.set(pass,profile.get(pass));
@@ -34,21 +32,44 @@ public class encryptionController {
         return byteList;
     }
 
-    protected ArrayList decryptProfileCredentials(ArrayList cipherText) throws Exception{
+    // (LegalName, UserName, Password, PhoneNumber)
+    private ArrayList<Object> decryptProfileCredentials(ArrayList<Object> cipherText) throws Exception{
+        ArrayList<Object> decrypted = new ArrayList<Object>();
+        for(int pass = 0; pass < 2; pass++){
+            decrypted.set(pass,cipherText.get(pass));
+        }
         for (int item = 2; item < cipherText.size(); item++){
-            byte[] itemBytes = decode(cipherText);
+            byte[] itemBytes = Base64.getDecoder().decode((byte[]) cipherText.get(item));
             decryptCipher = Cipher.getInstance("AES/GCM/NoPadding");
-            GCMParameterSpec spec = new GCMParameterSpec(128, Cipher.getIV());
+            GCMParameterSpec spec = new GCMParameterSpec(128, cipher.getIV());
             decryptCipher.init(Cipher.DECRYPT_MODE, key, spec);
             byte[] decryptBytes = decryptCipher.doFinal(itemBytes);
-            return new String(decryptBytes);
-            
+            decrypted.set(item, decryptBytes);
         }
-
+        return decrypted;
     }
 
-    protected void sendEncryption(){
-        
+    protected ArrayList<Object> getEncryption(ArrayList<String> profile){
+        //extract necessary values (aka username) from profile when passing to database
+        try{
+            return encryptProfileCredentials(profile);
+        }
+        catch(Exception E){
+            System.out.println(E);
+        }
+        return null;
+    }
+
+    protected ArrayList<Object> getDecryption(ArrayList<Object> profile){
+        //extract necessary values (aka username) from profile when passing to user
+        try{
+            return decryptProfileCredentials(profile);
+        }
+        catch(Exception E){
+            System.out.println(E);
+        }
+        return null;
     }
 
 }
+

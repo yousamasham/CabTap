@@ -1,16 +1,16 @@
 import java.util.ArrayList;
 
-public class dispatcherController {
+public class DispatcherController {
     ArrayList<TripInformation> rideOffers = new ArrayList<TripInformation>();
     ArrayList<TripInformation> rideRequests = new ArrayList<TripInformation>();
 
-    // user requests a ride
-    private void sendRideRequest(String arrivalTime, String dropOff, String pickup){
-
+    // user submits requests a ride
+    private void setRideRequests(String arrivalTime, String dropOff, String pickup){
+        
     }
 
     private void removeRequestRide(){
-
+        
     }
 
     private void sendRideShare(){
@@ -23,6 +23,10 @@ public class dispatcherController {
 
     protected void pairRiders(){
         
+    }
+
+    protected ArrayList<TripInformation> getRides(){
+        return rideRequests;
     }
     
 }
