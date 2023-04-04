@@ -1,4 +1,5 @@
 import java.time.*;
+import java.util.ArrayList;
 
 public class OfferRideSharePage {
     private String arrivalTime;
@@ -12,7 +13,12 @@ public class OfferRideSharePage {
     private void displayConfirmationPage(){
 
     }
-    private void displayRouteDetails(){
-        
+    private ArrayList<Object> displayRouteDetails(){
+        ArrayList<Object> routeDetails = new ArrayList<Object>();
+        routeDetails.add(availableSeats);
+        routeDetails.add(cost);
+        routeDetails.add(approxTime);
+        routeDetails.add(approxSaving);
+        return routeDetails;
     }
 }
