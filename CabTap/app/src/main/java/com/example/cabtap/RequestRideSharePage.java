@@ -1,6 +1,4 @@
 package com.example.cabtap;
-import java.time.*;
-import java.util.ArrayList;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,7 +45,7 @@ public class RequestRideSharePage extends Fragment{
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup containter, Bundle saveInstanceState) {
-        return (ViewGroup) inflater.inflate(R.layout.fragment_sharepage, containter, false);
+        return (ViewGroup) inflater.inflate(R.layout.fragment_requestsharepage, containter, false);
     }
 
 }
