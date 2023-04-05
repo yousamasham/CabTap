@@ -2,7 +2,9 @@ package com.example.cabtap;
 import java.time.*;
 import java.util.ArrayList;
 
-public class OfferRideSharePage {
+import androidx.fragment.app.Fragment;
+
+public class OfferRideSharePage extends Fragment {
     private String arrivalTime;
 
     //private roadmap map;

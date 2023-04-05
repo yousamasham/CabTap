@@ -2,7 +2,7 @@ package com.example.cabtap;
 import java.util.ArrayList;
 
 public class DispatcherController {
-    ArrayList<TripInformation> rideOffers = new ArrayList<TripInformation>();
+
     ArrayList<TripInformation> rideRequests = new ArrayList<TripInformation>();
 
     // user submits requests a ride
@@ -23,11 +23,13 @@ public class DispatcherController {
     }
 
     protected void pairRiders(){
-
+        
     }
 
     protected ArrayList<TripInformation> getRides(){
-        return rideRequests;
+        ArrayList<TripInformation> rideOffers = new ArrayList<TripInformation>();
+        //search available rides and add rides that are applicable
+        return rideOffers;
     }
 
 }
