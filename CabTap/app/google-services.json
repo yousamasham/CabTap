@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "863015606266",
+    "project_id": "cabtap-d06aa",
+    "storage_bucket": "cabtap-d06aa.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:863015606266:android:b4c698383320564790f643",
+        "android_client_info": {
+          "package_name": "com.example.cabtap"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "863015606266-rmf1sc56ir1rdku8hbchspkkljpj06qn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCe23r030Mw05cVw2lQn5Psgi64xCQkPxY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "863015606266-rmf1sc56ir1rdku8hbchspkkljpj06qn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

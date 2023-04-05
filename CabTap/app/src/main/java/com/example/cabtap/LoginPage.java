@@ -1,5 +1,6 @@
 package com.example.cabtap;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -27,7 +28,7 @@ public class LoginPage extends Fragment {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO CONNECT WITH BACKEND TO VALIDATE
+                //TODO
             }
         });
 

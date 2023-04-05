@@ -58,7 +58,7 @@ public class ProfileDatabase {
                 break;
             }
         }
-        //return restults
+        //return results
         if (resultProfile.size() > 0)
             return resultProfile;
         else{

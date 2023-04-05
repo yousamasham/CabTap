@@ -22,14 +22,14 @@ public class EncryptionController {
     private ArrayList<Object> encryptProfileCredentials(ArrayList<String> profile) throws Exception{
         ArrayList<Object> byteList = new ArrayList<Object>();
         for(int pass = 0; pass < 2; pass++){
-            byteList.set(pass,profile.get(pass));
+            byteList.add(pass,profile.get(pass));
         }
         for(int item = 2; item < profile.size(); item++){
             byte[] itemBytes = profile.get(item).getBytes();
             cipher = Cipher.getInstance("AES");
             cipher.init(Cipher.ENCRYPT_MODE, key);
             byte[] encryptBytes = cipher.doFinal(itemBytes);
-            byteList.set(item, encryptBytes);
+            byteList.add(item, encryptBytes);
         }
         return byteList;
     }
@@ -38,39 +38,40 @@ public class EncryptionController {
     private ArrayList<Object> decryptProfileCredentials(ArrayList<Object> cipherText) throws Exception{
         ArrayList<Object> decrypted = new ArrayList<Object>();
         for(int pass = 0; pass < 2; pass++){
-            decrypted.set(pass,cipherText.get(pass));
+            decrypted.add(pass,cipherText.get(pass));
         }
         for (int item = 2; item < cipherText.size(); item++){
-            byte[] itemBytes = Base64.getDecoder().decode((byte[]) cipherText.get(item));
-            decryptCipher = Cipher.getInstance("AES/GCM/NoPadding");
+            byte[] itemBytes = new byte[0];
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                itemBytes = Base64.getDecoder().decode((byte[]) cipherText.get(item));
+            }
+            decryptCipher = Cipher.getInstance("AES");
             GCMParameterSpec spec = new GCMParameterSpec(128, cipher.getIV());
             decryptCipher.init(Cipher.DECRYPT_MODE, key, spec);
             byte[] decryptBytes = decryptCipher.doFinal(itemBytes);
-            decrypted.set(item, decryptBytes);
+            decrypted.add(item, decryptBytes);
         }
         return decrypted;
     }
 
-    protected ArrayList<Object> getEncryption(ArrayList<String> profile){
+    protected ArrayList<Object> getEncryption(ArrayList<String> profile) throws Exception {
         //extract necessary values (aka username) from profile when passing to database
         try{
             return encryptProfileCredentials(profile);
         }
         catch(Exception E){
-            System.out.println(E);
+            throw E;
         }
-        return null;
     }
 
-    protected ArrayList<Object> getDecryption(ArrayList<Object> profile){
+    protected ArrayList<Object> getDecryption(ArrayList<Object> profile) throws Exception {
         //extract necessary values (aka username) from profile when passing to user
         try{
             return decryptProfileCredentials(profile);
         }
         catch(Exception E){
-            System.out.println(E);
+            throw E;
         }
-        return null;
     }
 
 }

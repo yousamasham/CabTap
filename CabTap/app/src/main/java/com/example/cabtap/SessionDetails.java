@@ -1,8 +1,9 @@
 package com.example.cabtap;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class SessionDetails {
+public class SessionDetails implements Serializable {
 
     private ArrayList<String> account;
 
