@@ -16,6 +16,7 @@ public class OfferRideSharePage extends Fragment {
     private void displayConfirmationPage(){
 
     }
+    
     private ArrayList<Object> displayRouteDetails(){
         ArrayList<Object> routeDetails = new ArrayList<Object>();
         routeDetails.add(availableSeats);

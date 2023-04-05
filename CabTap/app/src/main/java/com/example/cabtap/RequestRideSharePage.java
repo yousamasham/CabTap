@@ -27,19 +27,23 @@ public class RequestRideSharePage extends Fragment{
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO CONNECT WITH BACKEND TO VALIDATE
+                validateTripInfo();
+                //send info to Dispatch controller
+                //bring user to new page
             }
         });
 
     }
     
-    // vaidating should be done by rideshare controller
-
-    // private void validateTripInfo(){
-    //     //calculate the route cost
-    //     //call display open rides 
-    // }
-
+    private void validateTripInfo(){
+        if(isNull(dropOff) || isNull(pickup) || isNull(date) || isNull(time) || isNull(passengerNum)){
+            //display error message to fill all fields
+        }
+        if(dropOff == pickup){
+            //add out of range checks
+            //display message that ride is invalid
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup containter, Bundle saveInstanceState) {
