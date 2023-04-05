@@ -35,7 +35,6 @@ public class RegistrationPage extends Fragment {
                 //TODO CONNECT WITH BACKEND TO VALIDATE
             }
         });
-
     }
 
 
