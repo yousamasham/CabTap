@@ -7,19 +7,19 @@ public class DispatcherController {
 
     // user submits requests a ride
     private void setRideRequests(String arrivalTime, String dropOff, String pickup){
-
+        // gets requests from 
     }
 
     private void removeRequestRide(TripInformation ride){
         rideRequests.remove(ride);
     }
 
-    private void sendRideShare(){
-
+    private void sendRideShareOffer(TripInformation ride){
+        // sends offer to DisplayOpenRidesPage
     }
 
     protected void recieveRideShareOffer(){
-
+        // gets from offerRideSharePage
     }
 
     protected void pairRiders(){

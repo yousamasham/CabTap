@@ -34,7 +34,7 @@ public class OfferRideSharePage extends Fragment {
         return (ViewGroup) inflater.inflate(R.layout.fragment_submit, container, false);}
 
     private void displayConfirmation(){
-        
+
     }
     
     private ArrayList<Object> displayRouteDetails(){
