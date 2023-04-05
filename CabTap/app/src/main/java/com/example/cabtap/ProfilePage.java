@@ -1,9 +1,9 @@
 package com.example.cabtap;
 
 import android.os.Bundle;
+import android.se.omapi.Session;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
@@ -15,8 +15,11 @@ public class ProfilePage extends Fragment {
     SessionDetails sessionDetails;
     TextView legalName;
     TextView userName;
-
     TextView phoneNumber;
+
+    public ProfilePage(SessionDetails session){
+        this.sessionDetails = session;
+    }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
