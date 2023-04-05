@@ -21,7 +21,9 @@ public class OfferRideSharePage extends Fragment {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // get current location of rider and calculate the approx route to show to requesters
+                // get current location of rider
+                // validate that dropOff != current location otherwise show an error
+                // calculate the approx route to show to requesters
                 // send info to dispatcher controller
             }
         });
@@ -32,7 +34,7 @@ public class OfferRideSharePage extends Fragment {
         return (ViewGroup) inflater.inflate(R.layout.fragment_submit, container, false);}
 
     private void displayConfirmation(){
-
+        
     }
     
     private ArrayList<Object> displayRouteDetails(){
