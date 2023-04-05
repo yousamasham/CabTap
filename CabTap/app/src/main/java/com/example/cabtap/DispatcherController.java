@@ -10,8 +10,8 @@ public class DispatcherController {
 
     }
 
-    private void removeRequestRide(){
-
+    private void removeRequestRide(TripInformation ride){
+        rideRequests.remove(ride);
     }
 
     private void sendRideShare(){
@@ -23,13 +23,14 @@ public class DispatcherController {
     }
 
     protected void pairRiders(){
-        
+        // calls getRides(), recieveRideShareOffer(), and the answer of the offerer
     }
 
     protected ArrayList<TripInformation> getRides(){
         ArrayList<TripInformation> rideOffers = new ArrayList<TripInformation>();
         //search available rides and add rides that are applicable
         return rideOffers;
+
     }
 
 }

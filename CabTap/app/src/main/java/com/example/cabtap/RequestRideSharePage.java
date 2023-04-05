@@ -15,26 +15,6 @@ public class RequestRideSharePage extends Fragment{
     EditText passengerNum;
     Button submit;
 
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState){
-        dropOff = (EditText) getView().findViewById(R.id.et_dropOff);
-        pickUp = (EditText) getView().findViewById(R.id.et_pickup);
-        date = (EditText) getView().findViewById(R.id.et_date);
-        time = (EditText) getView().findViewById(R.id.et_time);
-        passengerNum = (EditText) getView().findViewById(R.id.et_passengerNum);
-        submit = (Button) getView().findViewById(R.id.btn_submit);
-
-        register.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                validateTripInfo();
-                //send info to Dispatch controller
-                //bring user to new page
-            }
-        });
-
-    }
-    
     private void validateTripInfo(){
         if(isNull(dropOff) || isNull(pickup) || isNull(date) || isNull(time) || isNull(passengerNum)){
             //display error message to fill all fields
@@ -46,8 +26,28 @@ public class RequestRideSharePage extends Fragment{
     }
 
     @Override
+    public void onViewCreated(View view, Bundle savedInstanceState){
+        dropOff = (EditText) getView().findViewById(R.id.et_dropOff);
+        pickUp = (EditText) getView().findViewById(R.id.et_pickup);
+        date = (EditText) getView().findViewById(R.id.et_date);
+        time = (EditText) getView().findViewById(R.id.et_time);
+        passengerNum = (EditText) getView().findViewById(R.id.et_passengerNum);
+        submit = (Button) getView().findViewById(R.id.btn_submit);
+
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                validateTripInfo();
+                //send info to Dispatch controller
+                //bring user to new page
+            }
+        });
+
+    }
+    
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup containter, Bundle saveInstanceState) {
-        return (ViewGroup) inflater.inflate(R.layout.fragment_sharepage, containter, false);
+        return (ViewGroup) inflater.inflate(R.layout.fragment_submit, containter, false);
     }
 
 }
