@@ -7,6 +7,7 @@ public class DisplayOpenRidesPage{
 
     TextView text_view;
     ArrayList<TripInformation> availableRides = new ArrayList<>();
+ 
 
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);

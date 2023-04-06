@@ -16,49 +16,49 @@ public class MainPage extends Fragment {
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // call function to move to logout page
+                goToLoginPage();
             }
         });
 
         editProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // call function to move to logout page
+                goToEditProfilePage();
             }
         });
 
         requestARide.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // call function to move to logout page
+                goToRequestRidePage();
             }
         });
 
         offerARide.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // call function to move to logout page
+                goToOfferRidePage();
             }
         });
     }
 
-    private void goToLogoutPage(){
-            Intent intent = new Intent(this, PresentOfferPage.class);
-            startActivity();
+    private void goToLoginPage(){
+        Intent intent = new Intent(this, LoginPage.class);
+        startActivity();
     }
 
     private void goToEditProfilePage(){
-            Intent intent = new Intent(this, PresentOfferPage.class);
-            startActivity();
+        Intent intent = new Intent(this, EditProfilePage.class);
+        startActivity();
     }
 
     private void goToRequestRidePage(){
-        Intent intent = new Intent(this, PresentOfferPage.class);
+        Intent intent = new Intent(this, RequestRideSharePage.class);
         startActivity();
     }
 
     private void goToOfferRidePage(){
-        Intent intent = new Intent(this, PresentOfferPage.class);
+        Intent intent = new Intent(this, OfferRideSharePage.class);
         startActivity();
     }
 

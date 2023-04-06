@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".PresentOfferPage">
 
     <LinearLayout
         android:id="@+id/linearLayout2"
@@ -70,26 +71,6 @@
             android:layout_width="match_parent"
             android:layout_height="136dp"
             android:layout_weight="1" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/btn_accept"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Accept" />
-
-            <Button
-                android:id="@+id/btn_reject"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Reject" />
-        </LinearLayout>
 
     </LinearLayout>
 

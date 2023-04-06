@@ -20,7 +20,7 @@
             android:fontFamily="@font/roboto_regular"
             android:layout_marginTop="60dp"/>
         <EditText
-            android:id="@+id/et_name"
+            android:id="@+id/et_dropOff"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:hint="Drop Off"
@@ -34,7 +34,7 @@
             android:textSize="15sp" />
 
         <EditText
-            android:id="@+id/et_username"
+            android:id="@+id/et_availableSeats"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:hint="Available Seats"
@@ -47,7 +47,7 @@
             android:textSize="15sp" />
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/btn_submit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Submit" />

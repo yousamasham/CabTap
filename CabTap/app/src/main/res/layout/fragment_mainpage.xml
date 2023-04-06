@@ -23,25 +23,25 @@
             android:layout_above="@id/tv_subtitle"/>
 
         <Button
-            android:id="@+id/button3"
+            android:id="@+id/btn_requestARide"
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:text="Request a Ride" />
 
         <Button
-            android:id="@+id/button4"
+            android:id="@+id/btn_offerARide"
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:text="Offer a Ride" />
 
         <Button
-            android:id="@+id/button5"
+            android:id="@+id/btn_editProfile"
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:text="Edit Profile" />
 
         <Button
-            android:id="@+id/button7"
+            android:id="@+id/btn_logout"
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:text="Logout" />
