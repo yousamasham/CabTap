@@ -23,9 +23,9 @@ public class DisplayOpenRidesPage extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.DisplayOpenRidesPage);
+        //setContentView(R.layout.DisplayOpenRidesPage);
 
-        text_view = findViewById(R.id.text_view);
+        //text_view = findViewById(R.id.text_view);
     }
 
     // content that will be displayed on the page (all the open rides with the accept and reject buttons)

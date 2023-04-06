@@ -33,14 +33,15 @@ public class OfferRideSharePage extends Fragment {
                 // validate that dropOff != current location otherwise show an error
                 // calculate the approx route to show to requesters
                 // send info to dispatcher controller
-                displayConfirmation();
+                //displayConfirmation();
             }
         });
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return (ViewGroup) inflater.inflate(R.layout.fragment_submit, container, false);}
+        return null;//return (ViewGroup) inflater.inflate(R.layout.fragment_submit, container, false);
+        }
 
     // opens present offer page with a confirmation.
     private void displayConfirmation(){

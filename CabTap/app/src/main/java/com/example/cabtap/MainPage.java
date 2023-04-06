@@ -56,7 +56,7 @@ public class MainPage extends Fragment {
     }
 
     private void goToEditProfilePage(){
-        Intent intent = new Intent(this, ProfileActivity.class);
+        Intent intent = new Intent(getActivity(), ProfileActivity.class);
         startActivity(intent);
     }
 

@@ -3,7 +3,7 @@ package com.example.cabtap;
 import java.util.ArrayList;
 
 public class ProfileDatabase {
-    private static ArrayList<ArrayList<Object>> encryptedUserList;
+    private static ArrayList<ArrayList<String>> encryptedUserList;
     private static ArrayList<String> usersLoggedIn;
     private static EncryptionController encryptor;
     private static ArrayList<String> usersPaused;
@@ -16,14 +16,14 @@ public class ProfileDatabase {
         catch(Exception E){
             throw E;
         }
-        encryptedUserList = new ArrayList<ArrayList<Object>>();
+        encryptedUserList = new ArrayList<ArrayList<String>>();
         usersLoggedIn = new ArrayList<String>();
         usersPaused = new ArrayList<String>();
     }
 
     protected static void InsertProfile(String ptLegalName, String ptUsername, String ptPassword, String ptPhoneNumber) throws Exception{
         //create profile arrayList
-        ArrayList<Object> encNewProfile = new ArrayList<Object>();
+        ArrayList<String> encNewProfile = new ArrayList<String>();
         ArrayList<String> ptNewProfile = new ArrayList<String>(){
             {
                 add(ptLegalName);
@@ -36,7 +36,7 @@ public class ProfileDatabase {
         encNewProfile = encryptor.getEncryption(ptNewProfile);
 
         //Ensure uniqueness
-        for (ArrayList<Object> encProfile : encryptedUserList) {
+        for (ArrayList<String> encProfile : encryptedUserList) {
             if (encProfile.get(ProfileField.USERNAME.ordinal()).equals(encNewProfile.get(ProfileField.USERNAME.ordinal())))
                 throw new Exception("Username already exists. Please select another one.");
         }
@@ -48,17 +48,17 @@ public class ProfileDatabase {
     protected static ArrayList<String> RetrieveProfile(String username) throws Exception{
         //find profile
         ArrayList<String> resultProfile = new ArrayList<String>();
-        for (ArrayList<Object> encProfile : encryptedUserList){
+        for (ArrayList<String> encProfile : encryptedUserList){
             if (encProfile.get(ProfileField.USERNAME.ordinal()).equals(username)){
                 //construct results
-                ArrayList<Object> decProfile = encryptor.getDecryption(encProfile);
+                ArrayList<String> decProfile = encryptor.getDecryption(encProfile);
                 resultProfile.add((String)decProfile.get(ProfileField.LEGALNAME.ordinal()));
                 resultProfile.add((String)decProfile.get(ProfileField.USERNAME.ordinal()));
                 resultProfile.add((String)decProfile.get(ProfileField.PHONENUMBER.ordinal()));
                 break;
             }
         }
-        //return restults
+        //return results
         if (resultProfile.size() > 0)
             return resultProfile;
         else{
@@ -136,7 +136,7 @@ public class ProfileDatabase {
             throw new Exception("Cannot edit username");
         }
         else{
-            ArrayList<Object> decryptedUserDetails = encryptor.getDecryption(encryptedUserList.get(DBindex));
+            ArrayList<String> decryptedUserDetails = encryptor.getDecryption(encryptedUserList.get(DBindex));
             ArrayList<String> pseudoNewUser = new ArrayList<String>(){
                 {
                     add((String)decryptedUserDetails.get(ProfileField.LEGALNAME.ordinal()));
@@ -153,7 +153,7 @@ public class ProfileDatabase {
                 pseudoNewUser.add(newVal);
             }
 
-            ArrayList<Object> encryptedPseudoNewUser = encryptor.getEncryption(pseudoNewUser);
+            ArrayList<String> encryptedPseudoNewUser = encryptor.getEncryption(pseudoNewUser);
             encryptedUserList.remove(DBindex);
             encryptedUserList.add(encryptedPseudoNewUser);
         }

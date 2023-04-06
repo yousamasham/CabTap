@@ -55,7 +55,7 @@ public class RequestRideSharePage extends Fragment{
     
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup containter, Bundle saveInstanceState) {
-        return (ViewGroup) inflater.inflate(R.layout.fragment_submit, containter, false);
+        return null;// (ViewGroup) inflater.inflate(R.layout.fragment_submit, containter, false);
     }
 
 }
