@@ -12,29 +12,41 @@ import androidx.fragment.app.Fragment;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
+
 public class ProfileActivity extends AppCompatActivity {
 
     SessionDetails sessionDetails;
-    TextView legalName;
-    TextView userName;
-    TextView phoneNumber;
+    TextView legalNameTV;
+    TextView userNameTV;
+    TextView phoneNumberTV;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_profile);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            this.sessionDetails = (SessionDetails) getIntent().getSerializableExtra("session", SessionDetails.class);
-        }
+        String username = getIntent().getStringExtra("username");
+        String legalName = getIntent().getStringExtra("legalName");
+        String phoneNumber = getIntent().getStringExtra("phoneNumber");
 
-        legalName = (TextView) findViewById(R.id.legalname);
-        legalName.setText("Hello, "+sessionDetails.getSessionLegalName()+"!");
+        ArrayList<String> session = new ArrayList<String>(){
+            {
+                add(username);
+                add(legalName);
+                add(phoneNumber);
+            }
+        };
+        this.sessionDetails = new SessionDetails(session);
 
-        userName = (TextView) findViewById(R.id.userName);
-        userName.setText(sessionDetails.getSessionUsername());
+        legalNameTV = (TextView) findViewById(R.id.legalname);
+        legalNameTV.setText("Hello, "+sessionDetails.getSessionLegalName()+"!");
 
-        phoneNumber = (TextView) findViewById(R.id.phoneNumber);
-        phoneNumber.setText(sessionDetails.getSessionPhoneNumber());
+        userNameTV = (TextView) findViewById(R.id.userName);
+        userNameTV.setText(sessionDetails.getSessionUsername());
+
+        phoneNumberTV = (TextView) findViewById(R.id.phoneNumber);
+        phoneNumberTV.setText(sessionDetails.getSessionPhoneNumber());
     }
 }
