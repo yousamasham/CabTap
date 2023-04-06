@@ -28,9 +28,6 @@ public class MainActivity extends AppCompatActivity {
         // add Fragments in your ViewPagerFragmentAdapter class         myAdapter.addFragment(new first_fragment());
         pagerAdapter.addFragment(new LoginPage());
         pagerAdapter.addFragment(new RegistrationPage());
-        pagerAdapter.addFragment(new MainPage());
-        pagerAdapter.addFragment(new RequestRideSharePage());
-        pagerAdapter.addFragment(new OfferRideSharePage());
 
         viewPager.setAdapter(pagerAdapter);
     }
