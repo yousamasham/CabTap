@@ -36,11 +36,16 @@ public class RequestRideSharePage extends Fragment{
             @Override
             public void onClick(View view) {
                 validateTripInfo();
+                sendInfo();
                 //send info to Dispatch controller
                 //bring user to new page
             }
         });
+    }
 
+    private void sendInfo(){
+        Intent intent = new Intent(this, DisplayOpenRidesPage.class);
+        startActivity();
     }
     
     @Override

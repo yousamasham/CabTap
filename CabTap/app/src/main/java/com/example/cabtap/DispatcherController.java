@@ -12,6 +12,7 @@ public class DispatcherController {
 
     private void removeRequestRide(TripInformation ride){
         rideRequests.remove(ride);
+        // either 
     }
 
     private void sendRideShareOffer(TripInformation ride){
