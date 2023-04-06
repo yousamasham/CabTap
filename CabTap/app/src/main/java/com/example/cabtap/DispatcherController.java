@@ -2,36 +2,32 @@ package com.example.cabtap;
 import java.util.ArrayList;
 
 public class DispatcherController {
-
+    ArrayList<TripInformation> rideOffers = new ArrayList<TripInformation>();
     ArrayList<TripInformation> rideRequests = new ArrayList<TripInformation>();
 
     // user submits requests a ride
     private void setRideRequests(String arrivalTime, String dropOff, String pickup){
-        // gets requests from 
+
     }
 
-    private void removeRequestRide(TripInformation ride){
-        rideRequests.remove(ride);
-        // either 
+    private void removeRequestRide(){
+
     }
 
-    private void sendRideShareOffer(TripInformation ride){
-        // sends offer to DisplayOpenRidesPage
+    private void sendRideShare(){
+
     }
 
     protected void recieveRideShareOffer(){
-        // gets from offerRideSharePage
+
     }
 
     protected void pairRiders(){
-        // calls getRides(), recieveRideShareOffer(), and the answer of the offerer
+
     }
 
     protected ArrayList<TripInformation> getRides(){
-        ArrayList<TripInformation> rideOffers = new ArrayList<TripInformation>();
-        //search available rides and add rides that are applicable
-        return rideOffers;
-
+        return rideRequests;
     }
 
 }
