@@ -2,7 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/CabTap.iml" filepath="$PROJECT_DIR$/.idea/CabTap.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/CabTap.iml" filepath="$PROJECT_DIR$/.idea/modules/CabTap.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/CabTap.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/CabTap.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/CabTap.app.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/CabTap.app.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/CabTap.app.main.iml" filepath="$PROJECT_DIR$/.idea/modules/app/CabTap.app.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/CabTap.app.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/CabTap.app.unitTest.iml" />
     </modules>
   </component>
 </project>

@@ -1,4 +1,10 @@
+package com.example.cabtap;
 import androidx.fragment.app.Fragment;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.*;
 
 public class MainPage extends Fragment {
     Button logout;

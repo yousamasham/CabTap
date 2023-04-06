@@ -1,5 +1,12 @@
 import java.util.ArrayList;
-import DispatcherController;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import androidx.fragment.app.Fragment;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.*;
+
+import com.example.cabtap.TripInformation;
 
 public class DisplayOpenRidesPage{
     // uses database of available rides and maps and requestride share page to find nearst available rides
@@ -9,6 +16,7 @@ public class DisplayOpenRidesPage{
     ArrayList<TripInformation> availableRides = new ArrayList<>();
  
 
+    @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.DisplayOpenRidesPage);
