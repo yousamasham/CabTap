@@ -4,19 +4,24 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.List;
+
 
 public class PresentOfferPage extends Fragment{
     RecyclerView recyclerView;
     RecyclerAdapter recyclerAdapter;
+    List<List<String>> requestedRides; // modify to correct type
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_presentofferpage);
         recyclerView.findViewById(R.id.recyclerView);
-        recyclerAdapter = new RecyclerAdapter();
+        recyclerAdapter = new RecyclerAdapter(requestedRides);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(recyclerAdapter);
+
+        // get list of available requests from dispatcher and store in the requestedRides list
     }
 
     //private void dispalyRequestRides(){
