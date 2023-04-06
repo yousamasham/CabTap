@@ -1,5 +1,7 @@
 package com.example.cabtap;
 import android.os.Bundle;
+
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -7,12 +9,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 
-public class PresentOfferPage extends Fragment{
+public class PresentOfferPage extends AppCompatActivity {
     RecyclerView recyclerView;
     RecyclerAdapter recyclerAdapter;
     List<List<String>> requestedRides; // modify to correct type
     @Override
-    protected void onCreate(Bundle savedInstanceState){
+    public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_presentofferpage);
         recyclerView.findViewById(R.id.recyclerView);

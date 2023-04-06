@@ -1,5 +1,10 @@
 package com.example.cabtap;
+import static java.util.Objects.isNull;
+
 import androidx.fragment.app.Fragment;
+
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,17 +12,17 @@ import android.widget.*;
 
 public class RequestRideSharePage extends Fragment{
     EditText dropOff;
-    EditText pickup;
+    EditText pickUp;
     EditText date;
     EditText time;
     EditText passengerNum;
     Button submit;
 
     private void validateTripInfo(){
-        if(isNull(dropOff) || isNull(pickup) || isNull(date) || isNull(time) || isNull(passengerNum)){
+        if(isNull(dropOff) || isNull(pickUp) || isNull(date) || isNull(time) || isNull(passengerNum)){
             //display error message to fill all fields
         }
-        if(dropOff == pickup){
+        if(dropOff == pickUp){
             //add out of range checks
             //display message that ride is invalid
         }
@@ -44,8 +49,8 @@ public class RequestRideSharePage extends Fragment{
     }
 
     private void sendInfo(){
-        Intent intent = new Intent(this, DisplayOpenRidesPage.class);
-        startActivity();
+        Intent intent = new Intent(getActivity(), DisplayOpenRidesPage.class);
+        startActivity(intent);
     }
     
     @Override

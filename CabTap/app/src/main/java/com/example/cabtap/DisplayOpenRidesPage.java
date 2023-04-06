@@ -1,6 +1,10 @@
+package com.example.cabtap;
+
 import java.util.ArrayList;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,7 +12,7 @@ import android.widget.*;
 
 import com.example.cabtap.TripInformation;
 
-public class DisplayOpenRidesPage{
+public class DisplayOpenRidesPage extends AppCompatActivity {
     // uses database of available rides and maps and requestride share page to find nearst available rides
     // and display it
 
@@ -17,7 +21,7 @@ public class DisplayOpenRidesPage{
  
 
     @Override
-    protected void onCreate(Bundle savedInstanceState){
+    public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.DisplayOpenRidesPage);
 
