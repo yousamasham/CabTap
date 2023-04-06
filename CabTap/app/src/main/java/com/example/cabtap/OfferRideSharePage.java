@@ -2,22 +2,47 @@ package com.example.cabtap;
 import java.time.*;
 import java.util.ArrayList;
 
-public class OfferRideSharePage {
-    private String arrivalTime;
+import androidx.fragment.app.Fragment;
 
-    //private roadmap map;
-    private int availableSeats;
-    private int cost;
+public class OfferRideSharePage extends Fragment {
+    EditText dropOff;
+    // private roadmap map;
+    EditText availableSeats;
+    Button submit;
     private LocalTime approxTime;
     private int approxSaving;
 
-    private void displayConfirmationPage(){
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState ){
+        dropOff = (EditText) getView().findViewById(R.id.et_dropOff);
+        availableSeats = (EditText) getView().findViewById(R.id.et_availableSeats);
+        submit = (Button) getView().findViewById(R.id.btn_submit);
 
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // get current location of rider
+                // validate that dropOff != current location otherwise show an error
+                // calculate the approx route to show to requesters
+                // send info to dispatcher controller
+                displayConfirmation();
+            }
+        });
     }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return (ViewGroup) inflater.inflate(R.layout.fragment_submit, container, false);}
+
+    // opens present offer page with a confirmation.
+    private void displayConfirmation(){
+        Intent intent = new Intent(this, PresentOfferPage.class);
+        startActivity();
+    }
+    
     private ArrayList<Object> displayRouteDetails(){
         ArrayList<Object> routeDetails = new ArrayList<Object>();
         routeDetails.add(availableSeats);
-        routeDetails.add(cost);
         routeDetails.add(approxTime);
         routeDetails.add(approxSaving);
         return routeDetails;
