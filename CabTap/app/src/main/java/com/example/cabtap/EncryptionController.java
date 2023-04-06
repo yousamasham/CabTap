@@ -15,7 +15,7 @@ public class EncryptionController {
     EncryptionController() throws NoSuchAlgorithmException{
         KeyGenerator keyGenerator = KeyGenerator.getInstance("AES");
         keyGenerator.init(128);
-        key = keyGenerator.generateKey();
+        this.key = keyGenerator.generateKey();
     }
 
     // (LegalName, UserName, Password, PhoneNumber)
@@ -27,7 +27,7 @@ public class EncryptionController {
         for(int item = 2; item < profile.size(); item++){
             byte[] itemBytes = profile.get(item).getBytes();
             cipher = Cipher.getInstance("AES");
-            cipher.init(Cipher.ENCRYPT_MODE, key);
+            cipher.init(Cipher.ENCRYPT_MODE, this.key);
             byte[] encryptBytes = cipher.doFinal(itemBytes);
             byteList.set(item, encryptBytes);
         }
@@ -44,7 +44,7 @@ public class EncryptionController {
             byte[] itemBytes = Base64.getDecoder().decode((byte[]) cipherText.get(item));
             decryptCipher = Cipher.getInstance("AES/GCM/NoPadding");
             GCMParameterSpec spec = new GCMParameterSpec(128, cipher.getIV());
-            decryptCipher.init(Cipher.DECRYPT_MODE, key, spec);
+            decryptCipher.init(Cipher.DECRYPT_MODE, this.key, spec);
             byte[] decryptBytes = decryptCipher.doFinal(itemBytes);
             decrypted.set(item, decryptBytes);
         }
