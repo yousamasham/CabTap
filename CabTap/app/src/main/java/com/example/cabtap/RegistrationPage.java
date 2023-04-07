@@ -21,8 +21,11 @@ public class RegistrationPage extends Fragment {
     EditText rePassword;
     Button register;
 
+    RegistrationController controller;
+
     @Override
     public void onViewCreated(View view,  Bundle savedInstanceState) {
+        controller = new RegistrationController();
 
         legalName = (EditText) getView().findViewById(R.id.et_name);
         userName = (EditText) getView().findViewById(R.id.et_username);
@@ -35,14 +38,9 @@ public class RegistrationPage extends Fragment {
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO CONNECT WITH BACKEND TO VALIDATE
+                //VALIDATE REGISTRATION
                 try{
-                    ProfileDatabase profileDB = new ProfileDatabase();
-                    profileDB.InsertProfile(legalName.getText().toString(), userName.getText().toString(),
-                            password.getText().toString(), phoneNumber.getText().toString());
-                    System.out.println(profileDB.RetrieveProfile(userName.getText().toString()));
-                    ArrayList<String> userDetails = profileDB.RetrieveProfile(userName.getText().toString());
-                    SessionDetails session = new SessionDetails(userDetails);
+                    SessionDetails session = new SessionDetails(controller.validateCredentials(legalName, userName,  phoneNumber, password,  rePassword));
                     Intent intent = new Intent(getActivity(), ProfileActivity.class);
                     intent.putExtra("legalName", session.getSessionLegalName());
                     intent.putExtra("username", session.getSessionUsername());
@@ -50,11 +48,7 @@ public class RegistrationPage extends Fragment {
                     startActivity(intent);
                 }
                 catch(Exception E){
-                    try {
-                        throw E;
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
+
                 }
             }
         });
