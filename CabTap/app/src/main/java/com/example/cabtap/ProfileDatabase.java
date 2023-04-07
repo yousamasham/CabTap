@@ -1,6 +1,19 @@
 package com.example.cabtap;
 
+import android.app.Activity;
+
+import androidx.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ProfileDatabase {
     private static ArrayList<ArrayList<String>> encryptedUserList;
@@ -8,22 +21,21 @@ public class ProfileDatabase {
     private static EncryptionController encryptor;
     private static ArrayList<String> usersPaused;
 
+    private static FirebaseFirestore firestore;
+
     ProfileDatabase() throws Exception {
         //init encryptor
         try{
             encryptor = new EncryptionController();
+            firestore = FirebaseFirestore.getInstance();
         }
         catch(Exception E){
             throw E;
         }
-        encryptedUserList = new ArrayList<ArrayList<String>>();
-        usersLoggedIn = new ArrayList<String>();
-        usersPaused = new ArrayList<String>();
     }
 
-    protected static void InsertProfile(String ptLegalName, String ptUsername, String ptPassword, String ptPhoneNumber) throws Exception{
-        //create profile arrayList
-        ArrayList<String> encNewProfile = new ArrayList<String>();
+    protected static boolean InsertProfile(String ptLegalName, String ptUsername, String ptPassword, String ptPhoneNumber) throws Exception{
+
         ArrayList<String> ptNewProfile = new ArrayList<String>(){
             {
                 add(ptLegalName);
@@ -33,20 +45,45 @@ public class ProfileDatabase {
             }
         };
 
-        encNewProfile = encryptor.getEncryption(ptNewProfile);
+        ArrayList<String> encProfileList = encryptor.getEncryption(ptNewProfile);
 
-        //Ensure uniqueness
-        for (ArrayList<String> encProfile : encryptedUserList) {
-            if (encProfile.get(ProfileField.USERNAME.ordinal()).equals(encNewProfile.get(ProfileField.USERNAME.ordinal())))
-                throw new Exception("Username already exists. Please select another one.");
+        Map<String, Object> newUser = new HashMap<>();
+        newUser.put("legalname", encProfileList.get(ProfileField.LEGALNAME.ordinal()));
+        newUser.put("username", encProfileList.get(ProfileField.USERNAME.ordinal()));
+        newUser.put("password", encProfileList.get(ProfileField.PASSWORD.ordinal()));
+        newUser.put("phonenumber", encProfileList.get(ProfileField.PHONENUMBER.ordinal()));
+        newUser.put("rewardsbal", 0);
+        try{
+            firestore.collection("profiles").document((String) newUser.get("username")).set(newUser);
+        }
+        catch (Exception E){
+            throw E;
         }
 
-        //New profile is unique, add it to DB.
-        encryptedUserList.add(encNewProfile);
+        return true;
     }
 
     protected static ArrayList<String> RetrieveProfile(String username) throws Exception{
-        //find profile
+
+        Map<String, Object> mapResult = firestore.collection("profiles").document(username).get().getResult().getData();
+
+        ArrayList<String> resEnc = new ArrayList<String>(){
+            {
+                add((String) mapResult.get("legalname"));
+                add((String) mapResult.get("username"));
+                add((String) mapResult.get("password"));
+                add((String) mapResult.get("phonenumber"));
+                add((String) mapResult.get("rewardsbal"));
+            }
+        };
+
+        ArrayList<String> decRes = encryptor.getDecryption(resEnc);
+
+        decRes.remove(ProfileField.PASSWORD.ordinal());
+
+        return decRes;
+
+        /*//find profile
         ArrayList<String> resultProfile = new ArrayList<String>();
         for (ArrayList<String> encProfile : encryptedUserList){
             if (encProfile.get(ProfileField.USERNAME.ordinal()).equals(username)){
@@ -63,7 +100,7 @@ public class ProfileDatabase {
             return resultProfile;
         else{
             throw new Exception("Username not found within database");
-        }
+        }*/
     }
 
     private static boolean VerifyLogin(String username){
@@ -87,8 +124,11 @@ public class ProfileDatabase {
         return true;
     }
 
-    protected static void SignalLogin(String username){
-        usersLoggedIn.add(username);
+    protected static boolean SignalLogin(String username){
+        Map<String, Boolean> map = new HashMap<String, Boolean>();
+        map.put("signedin", true);
+        firestore.collection("currentlyLoggedIn").document(username).set(map);
+        return true;
     }
 
     protected static void SignalLogout(String username){

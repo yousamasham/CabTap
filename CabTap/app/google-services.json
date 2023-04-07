@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "704600564863",
+    "project_id": "cabtap-321fe",
+    "storage_bucket": "cabtap-321fe.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:704600564863:android:e331b0c962a58e886dcb4a",
+        "android_client_info": {
+          "package_name": "com.example.cabtap"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "704600564863-io4ulfoqucv52epe6bhm759qlb1rnnda.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.cabtap",
+            "certificate_hash": "f00d9eda858ce977094835eb8b47b1a936d4d86d"
+          }
+        },
+        {
+          "client_id": "704600564863-29dp983kaf718afd2odc7qlog613cl7v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCNcqEVt7DV5n3zMyfIOXPEX4NWaNv5-fw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "704600564863-29dp983kaf718afd2odc7qlog613cl7v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
