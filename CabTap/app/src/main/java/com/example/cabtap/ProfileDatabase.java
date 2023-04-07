@@ -1,9 +1,6 @@
 package com.example.cabtap;
 
 import com.google.firebase.firestore.FirebaseFirestore;
-
-import org.checkerframework.checker.units.qual.A;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
