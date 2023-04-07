@@ -34,6 +34,9 @@ public class EncryptionController {
             byte[] encryptBytes = cipher.doFinal(itemBytes);
             byteList.add(item, encode(encryptBytes));
         }
+
+        byteList.add(profile.get(profile.size()-1));
+
         return byteList;
     }
 
@@ -43,7 +46,7 @@ public class EncryptionController {
         for(int pass = 0; pass < 2; pass++){
             decrypted.add(pass,cipherText.get(pass));
         }
-        for (int item = 2; item < cipherText.size(); item++){
+        for (int item = 2; item < cipherText.size()-1; item++){
             byte[] itemBytes = decode(cipherText.get(item));
             decryptCipher = Cipher.getInstance("AES");
             byte[] iv = decryptCipher.getIV();
@@ -52,6 +55,9 @@ public class EncryptionController {
             byte[] decryptBytes = decryptCipher.doFinal(itemBytes);
             decrypted.add(item, new String(decryptBytes));
         }
+
+        decrypted.add(cipherText.get(cipherText.size()-1));
+
         return decrypted;
     }
 
