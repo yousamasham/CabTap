@@ -48,11 +48,7 @@ public class RegistrationPage extends Fragment {
                     startActivity(intent);
                 }
                 catch(Exception E){
-                    try {
-                        throw E;
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
+
                 }
             }
         });

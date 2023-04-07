@@ -29,7 +29,7 @@ public class LoginPage extends Fragment {
         //sendLoginCredentials
         login.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 try{
                     SessionDetails session = new SessionDetails(controller.login(userName,  password));
                     Intent intent = new Intent(getActivity(), ProfileActivity.class);
@@ -39,11 +39,7 @@ public class LoginPage extends Fragment {
                     startActivity(intent);
                 }
                 catch(Exception E){
-                    try {
-                        throw E;
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
+
                 }
             }
         });

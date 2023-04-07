@@ -31,16 +31,17 @@ public class RegistrationController {
             throw new Exception("Exception message");
         }
 
+        CharSequence number = phoneNumber.getText().toString();
+        if (isEmpty(number) || !Patterns.PHONE.matcher(number).matches()){
+            phoneNumber.setError("You must enter a valid number to login!");
+            throw new Exception("Exception message");
+        }
         CharSequence passStr = password.getText().toString();
         CharSequence repassStr = rePassword.getText().toString();
 
-        if (passStr != repassStr){
-            rePassword.setError("Password must match");
-            throw new Exception("Exception message");
-        }
-
-        CharSequence number = phoneNumber.getText().toString();
-        if (!TextUtils.isEmpty(number) && Patterns.PHONE.matcher(number).matches()){
+        if (!passStr.equals(repassStr)){
+            password.setError("Password does not match");
+            rePassword.setError("Password does not match");
             throw new Exception("Exception message");
         }
 
