@@ -38,16 +38,17 @@ public class RegistrationPage extends Fragment {
                 //TODO CONNECT WITH BACKEND TO VALIDATE
                 try{
                     ProfileDatabase profileDB = new ProfileDatabase();
-                    profileDB.InsertProfile(legalName.getText().toString(), userName.getText().toString(),
+                    boolean res = profileDB.InsertProfile(legalName.getText().toString(), userName.getText().toString(),
                             password.getText().toString(), phoneNumber.getText().toString());
-                    System.out.println(profileDB.RetrieveProfile(userName.getText().toString()));
-                    ArrayList<String> userDetails = profileDB.RetrieveProfile(userName.getText().toString());
+                    profileDB.SignalLogin(userName.getText().toString());
+                    //System.out.println(profileDB.RetrieveProfile(userName.getText().toString()));
+                    /*ArrayList<String> userDetails = profileDB.RetrieveProfile(userName.getText().toString());
                     SessionDetails session = new SessionDetails(userDetails);
                     Intent intent = new Intent(getActivity(), ProfileActivity.class);
                     intent.putExtra("legalName", session.getSessionLegalName());
                     intent.putExtra("username", session.getSessionUsername());
                     intent.putExtra("phoneNumber", session.getSessionPhoneNumber());
-                    startActivity(intent);
+                    startActivity(intent);*/
                 }
                 catch(Exception E){
                     try {
