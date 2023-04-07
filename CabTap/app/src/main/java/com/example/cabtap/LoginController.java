@@ -4,27 +4,38 @@ import static android.text.TextUtils.isEmpty;
 
 import android.widget.EditText;
 
+import java.util.ArrayList;
+
 public class LoginController {
 
-    public boolean checkUsername(EditText user, EditText pass) {
+    public ArrayList<String> login(EditText userName, EditText password) throws Exception {
 
-        CharSequence username = user.getText().toString();
-        boolean isValid = true;
-        if (isEmpty(username)) {
-            user.setError("You must enter username to login!");
-            isValid = false;
+        CharSequence userStr = userName.getText().toString();
+        if (isEmpty(userStr)) {
+            userName.setError("You must enter username to login!");
+            throw new Exception("Exception message");
         }
 
-        CharSequence password = pass.getText().toString();
-        if (isEmpty(password)) {
-            pass.setError("You must enter password to login!");
-            isValid = false;
+        CharSequence passStr = password.getText().toString();
+        if (isEmpty(passStr)) {
+            password.setError("You must enter password to login!");
+            throw new Exception("Exception message");
         }
 
-//        if (isValid) {
-            //TODO
-//        }
-        return false;
+        try{
+            ProfileDatabase profileDB = new ProfileDatabase();
+            ArrayList<String> userDetails = profileDB.RetrieveProfile(userName.getText().toString());
+            return userDetails;
+        }
+        catch(Exception E){
+            try {
+                throw E;
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
+
+
 
 }

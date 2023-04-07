@@ -21,8 +21,11 @@ public class RegistrationPage extends Fragment {
     EditText rePassword;
     Button register;
 
+    RegistrationController controller;
+
     @Override
     public void onViewCreated(View view,  Bundle savedInstanceState) {
+        controller = new RegistrationController();
 
         legalName = (EditText) getView().findViewById(R.id.et_name);
         userName = (EditText) getView().findViewById(R.id.et_username);
@@ -35,8 +38,10 @@ public class RegistrationPage extends Fragment {
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO CONNECT WITH BACKEND TO VALIDATE
+                //VALIDATE REGISTRATION
                 try{
+                    SessionDetails session = new SessionDetails(controller.validateCredentials(legalName, userName,  phoneNumber, password,  rePassword));
+                    
                     ProfileDatabase profileDB = new ProfileDatabase();
                     boolean res = profileDB.InsertProfile(legalName.getText().toString(), userName.getText().toString(),
                             password.getText().toString(), phoneNumber.getText().toString());
@@ -51,11 +56,7 @@ public class RegistrationPage extends Fragment {
                     startActivity(intent);*/
                 }
                 catch(Exception E){
-                    try {
-                        throw E;
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
+
                 }
             }
         });
