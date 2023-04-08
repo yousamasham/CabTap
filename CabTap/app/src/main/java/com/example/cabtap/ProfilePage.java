@@ -19,7 +19,7 @@ public class ProfilePage extends Fragment {
     Button logout;
 
 
-    public static ProfilePage newInstance( SessionDetails profile) {
+    public static ProfilePage newInstance(SessionDetails profile) {
         ProfilePage fragment = new ProfilePage();
         Bundle args = new Bundle();
         args.putString("username", profile.getSessionUsername());

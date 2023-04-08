@@ -5,11 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-
 import android.os.Bundle;
-
 import com.example.cabtap.databinding.ActivityLoggedinMainBinding;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class LoggedInMainActivity extends AppCompatActivity {
@@ -28,14 +27,21 @@ public class LoggedInMainActivity extends AppCompatActivity {
         String legalName = getIntent().getStringExtra("legalName");
         String phoneNumber = getIntent().getStringExtra("phoneNumber");
 
-        ArrayList<String> session = new ArrayList<String>(){
-            {
-                add(username);
-                add(legalName);
-                add(phoneNumber);
+        ArrayList<String> profile;
+
+        try{
+            ProfileDatabase profileDB= new ProfileDatabase();
+            profile = profileDB.RetrieveProfile(username);
+        }
+        catch (Exception E){
+            try {
+                throw E;
+            } catch (Exception e) {
+                throw new RuntimeException(e);
             }
-        };
-        sessionDetails = new SessionDetails(session);
+        }
+
+        sessionDetails = new SessionDetails(profile);
 
 
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {

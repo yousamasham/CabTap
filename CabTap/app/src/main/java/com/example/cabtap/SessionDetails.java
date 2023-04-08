@@ -20,6 +20,6 @@ public class SessionDetails implements Serializable {
     }
 
     protected String getSessionPhoneNumber(){
-        return this.account.get(ProfileField.PHONENUMBER.ordinal()-1);
+        return this.account.get(ProfileField.PHONENUMBER.ordinal());
     }
 }
