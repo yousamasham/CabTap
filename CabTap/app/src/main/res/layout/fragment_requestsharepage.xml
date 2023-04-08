@@ -17,7 +17,7 @@
             android:layout_width="367dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="25dp"
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="25dp"
             android:layout_marginBottom="5dp"
             android:fontFamily="@font/roboto_regular"
             android:text="Request Rideshare"

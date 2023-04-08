@@ -32,7 +32,7 @@ public class LoginPage extends Fragment {
             public void onClick(View view) {
                 try{
                     SessionDetails session = new SessionDetails(controller.login(userName,  password));
-                    Intent intent = new Intent(getActivity(), ProfileActivity.class);
+                    Intent intent = new Intent(getActivity(), LoggedInMainActivity.class);
                     intent.putExtra("legalName", session.getSessionLegalName());
                     intent.putExtra("username", session.getSessionUsername());
                     intent.putExtra("phoneNumber", session.getSessionPhoneNumber());
