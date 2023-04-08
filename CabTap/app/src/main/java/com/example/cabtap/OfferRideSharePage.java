@@ -40,7 +40,7 @@ public class OfferRideSharePage extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return null;//return (ViewGroup) inflater.inflate(R.layout.fragment_submit, container, false);
+        return (ViewGroup) inflater.inflate(R.layout.fragment_offersharepage, container, false);
         }
 
     // opens present offer page with a confirmation.

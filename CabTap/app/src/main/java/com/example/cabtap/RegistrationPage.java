@@ -41,7 +41,7 @@ public class RegistrationPage extends Fragment {
                 //VALIDATE REGISTRATION
                 try{
                     SessionDetails session = new SessionDetails(controller.validateCredentials(legalName, userName,  phoneNumber, password,  rePassword));
-                    Intent intent = new Intent(getActivity(), ProfileActivity.class);
+                    Intent intent = new Intent(getActivity(), LoggedInMainActivity.class);
                     intent.putExtra("legalName", session.getSessionLegalName());
                     intent.putExtra("username", session.getSessionUsername());
                     intent.putExtra("phoneNumber", session.getSessionPhoneNumber());
