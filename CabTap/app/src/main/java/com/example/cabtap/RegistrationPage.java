@@ -20,7 +20,6 @@ public class RegistrationPage extends Fragment {
     EditText password;
     EditText rePassword;
     Button register;
-
     RegistrationController controller;
 
     @Override

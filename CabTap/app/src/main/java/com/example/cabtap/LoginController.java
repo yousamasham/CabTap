@@ -25,6 +25,15 @@ public class LoginController {
         try{
             ProfileDatabase profileDB = new ProfileDatabase();
             ArrayList<String> userDetails = profileDB.RetrieveProfile(userName.getText().toString());
+            if (userDetails.isEmpty()){
+                userName.setError("Username does not exist!");
+                throw new Exception("Exception message");
+            }
+
+            if (!userDetails.get(ProfileField.PASSWORD.ordinal()).equals(passStr)){
+                password.setError("Username and password do not match!");
+                throw new Exception("Exception message");
+            }
             return userDetails;
         }
         catch(Exception E){

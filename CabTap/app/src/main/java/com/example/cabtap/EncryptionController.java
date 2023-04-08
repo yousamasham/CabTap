@@ -6,6 +6,8 @@ import static com.google.android.gms.common.util.Base64Utils.encode;
 import java.security.NoSuchAlgorithmException;
 import javax.crypto.*;
 import javax.crypto.spec.GCMParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
+
 import java.util.ArrayList;
 import java.util.Base64;
 
@@ -16,9 +18,15 @@ public class EncryptionController {
 
     // init function to generate key
     EncryptionController() throws NoSuchAlgorithmException{
-        KeyGenerator keyGenerator = KeyGenerator.getInstance("AES");
-        keyGenerator.init(128);
-        this.key = keyGenerator.generateKey();
+
+        byte[] encoded = {
+                (byte) 0x00, (byte) 0x01, (byte) 0x02, (byte) 0x03,
+                (byte) 0x04, (byte) 0x05, (byte) 0x06, (byte) 0x07,
+                (byte) 0x08, (byte) 0x09, (byte) 0x0A, (byte) 0x0B,
+                (byte) 0x0C, (byte) 0x0D, (byte) 0x0E, (byte) 0x0F,
+        };
+
+        this.key = new SecretKeySpec(encoded, "AES");
     }
 
     // (LegalName, UserName, Password, PhoneNumber)

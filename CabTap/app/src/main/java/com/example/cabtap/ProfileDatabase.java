@@ -80,6 +80,10 @@ public class ProfileDatabase {
             throw E;
         }
 
+        if (map == null || map.isEmpty()){
+            return new ArrayList<String>();
+        }
+
         ArrayList<String> resEnc = new ArrayList<String>(){
             {
                 add(map.get("legalname").toString());
