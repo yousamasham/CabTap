@@ -17,7 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAlignment="center"
-            android:textSize="50sp"
+            android:textSize="40sp"
             android:layout_marginStart="25dp"
             android:layout_marginBottom="5dp"
             android:fontFamily="@font/roboto_regular"
@@ -35,6 +35,36 @@
 
         <TextView
             android:id="@+id/phoneNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textSize="15sp"
+            android:layout_marginStart="25dp"
+            android:layout_marginBottom="5dp"
+            android:fontFamily="@font/roboto_regular"/>
+
+        <TextView
+            android:id="@+id/tripCompleted"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textSize="15sp"
+            android:layout_marginStart="25dp"
+            android:layout_marginBottom="5dp"
+            android:fontFamily="@font/roboto_regular"/>
+
+        <TextView
+            android:id="@+id/rating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textSize="15sp"
+            android:layout_marginStart="25dp"
+            android:layout_marginBottom="5dp"
+            android:fontFamily="@font/roboto_regular"/>
+
+        <TextView
+            android:id="@+id/rewardBal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAlignment="center"

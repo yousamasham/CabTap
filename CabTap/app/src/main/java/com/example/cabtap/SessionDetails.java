@@ -22,4 +22,16 @@ public class SessionDetails implements Serializable {
     protected String getSessionPhoneNumber(){
         return this.account.get(ProfileField.PHONENUMBER.ordinal());
     }
+
+    protected String getSessionRewardsBalance(){
+        return this.account.get(ProfileField.REWARDSBAL.ordinal());
+    }
+
+    protected String getSessionRating(){
+        return this.account.get(ProfileField.RATING.ordinal());
+    }
+
+    protected String getSessionTripsCompleted(){
+        return this.account.get(ProfileField.TRIPSCOMPLETED.ordinal());
+    }
 }

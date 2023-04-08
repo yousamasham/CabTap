@@ -36,6 +36,9 @@ public class LoginPage extends Fragment {
                     intent.putExtra("legalName", session.getSessionLegalName());
                     intent.putExtra("username", session.getSessionUsername());
                     intent.putExtra("phoneNumber", session.getSessionPhoneNumber());
+                    intent.putExtra("tripsCompleted", session.getSessionTripsCompleted());
+                    intent.putExtra("rating", session.getSessionRating());
+                    intent.putExtra("rewardsBal", session.getSessionRewardsBalance());
                     startActivity(intent);
                 }
                 catch(Exception E){
