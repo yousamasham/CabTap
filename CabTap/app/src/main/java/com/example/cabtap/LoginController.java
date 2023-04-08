@@ -30,7 +30,7 @@ public class LoginController {
                 throw new Exception("Exception message");
             }
 
-            if (userDetails.get(ProfileField.PASSWORD.ordinal()) != passStr){
+            if (!userDetails.get(ProfileField.PASSWORD.ordinal()).equals(passStr)){
                 password.setError("Username and password do not match!");
                 throw new Exception("Exception message");
             }

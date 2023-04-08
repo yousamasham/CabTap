@@ -40,18 +40,20 @@ public class RegistrationController {
         CharSequence repassStr = rePassword.getText().toString();
 
         if (!passStr.equals(repassStr)){
-            password.setError("Password does not match");
             rePassword.setError("Password does not match");
             throw new Exception("Exception message");
         }
 
         try{
-            ProfileDatabase profileDB = new ProfileDatabase();
-            profileDB.InsertProfile(legalName.getText().toString(), userName.getText().toString(),
-                    password.getText().toString(), phoneNumber.getText().toString());
-            profileDB.SignalLogin(userName.getText().toString());
-            ArrayList<String> userDetails = profileDB.RetrieveProfile(userName.getText().toString());
-            return userDetails;
+            ProfileDatabase db = new ProfileDatabase();
+            ArrayList<String> res = db.RetrieveProfile(usernameStr.toString());
+            if (!(res == null || res.isEmpty())){
+                userName.setError("Username already exists. Please sign in or pick a different username!");
+                throw new Exception("Exception message");
+            }
+            db.InsertProfile(legalName.getText().toString(), userName.getText().toString(), password.getText().toString(), phoneNumber.getText().toString());
+            db.SignalLogin(userName.getText().toString());
+            return db.RetrieveProfile(userName.getText().toString());
         }
         catch(Exception E){
             try {
@@ -61,6 +63,4 @@ public class RegistrationController {
             }
         }
     }
-
-
 }
