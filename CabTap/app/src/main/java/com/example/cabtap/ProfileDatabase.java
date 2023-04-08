@@ -53,15 +53,21 @@ public class ProfileDatabase {
 
     protected static ArrayList<String> RetrieveProfile(String username) throws Exception{
 
-        Map<String, Object> mapResult = firestore.collection("profiles").document(username).get().getResult().getData();
+        Task query = firestore.collection("profiles").document(username).get();
+
+        while (!query.isComplete());
+
+        DocumentSnapshot mapRes = (DocumentSnapshot) query.getResult();
+
+        Map<String, Object> map = mapRes.getData();
 
         ArrayList<String> resEnc = new ArrayList<String>(){
             {
-                add((String) mapResult.get("legalname"));
-                add((String) mapResult.get("username"));
-                add((String) mapResult.get("password"));
-                add((String) mapResult.get("phonenumber"));
-                add((String) mapResult.get("rewardsbal"));
+                add(map.get("legalname").toString());
+                add(map.get("username").toString());
+                add(map.get("password").toString());
+                add(map.get("phonenumber").toString());
+                add(map.get("rewardsbal").toString());
             }
         };
 

@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ProfileActivity">
+    tools:context=".ProfilePage">
+
     <LinearLayout
 
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context=".ProfileActivity">
+        tools:context=".ProfilePage">
 
         <TextView
             android:id="@+id/legalname"
@@ -20,7 +21,7 @@
             android:layout_marginStart="25dp"
             android:layout_marginBottom="5dp"
             android:fontFamily="@font/roboto_regular"
-            android:layout_marginTop="60dp"/>
+            android:layout_marginTop="25dp"/>
 
         <TextView
             android:id="@+id/userName"
@@ -30,8 +31,7 @@
             android:textSize="15sp"
             android:layout_marginStart="25dp"
             android:layout_marginBottom="5dp"
-            android:fontFamily="@font/roboto_regular"
-            android:layout_marginTop="60dp"/>
+            android:fontFamily="@font/roboto_regular"/>
 
         <TextView
             android:id="@+id/phoneNumber"
@@ -41,8 +41,7 @@
             android:textSize="15sp"
             android:layout_marginStart="25dp"
             android:layout_marginBottom="5dp"
-            android:fontFamily="@font/roboto_regular"
-            android:layout_marginTop="60dp"/>
+            android:fontFamily="@font/roboto_regular"/>
 
         <Button
             android:id="@+id/btn_ModifyLegalName"
@@ -52,7 +51,7 @@
             android:fontFamily="@font/roboto_regular"
             android:layout_marginLeft="80dp"
             android:layout_marginRight="80dp"
-            android:layout_marginTop="100dp"
+            android:layout_marginTop="30dp"
             android:layout_marginBottom="10dp"
             android:layout_centerInParent="true"
             android:textColor="@android:color/white"
@@ -81,45 +80,53 @@
             android:layout_marginLeft="80dp"
             android:layout_marginRight="80dp"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="30dp"
+            android:layout_marginBottom="10dp"
             android:layout_centerInParent="true"
             android:textColor="@android:color/white"
             android:text="Change Phone Number"/>
 
-        <RelativeLayout
+
+        <Button
+            android:id="@+id/btn_pauseProfile"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_weight="1">
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_custom"
+            android:fontFamily="@font/roboto_regular"
+            android:layout_marginLeft="80dp"
+            android:layout_marginRight="80dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_centerInParent="true"
+            android:textColor="@android:color/white"
+            android:text="Pause profile"/>
 
-            <Button
-                android:id="@+id/btn_pauseProfile"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginBottom="175dp"
-                android:background="@drawable/btn_custom"
-                android:fontFamily="@font/roboto_bold"
-                android:text="Pause profile"
-                android:textColor="@android:color/white" />
+        <Button
+            android:id="@+id/btn_deleteProfile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_custom"
+            android:fontFamily="@font/roboto_regular"
+            android:layout_marginLeft="80dp"
+            android:layout_marginRight="80dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_centerInParent="true"
+            android:textColor="@android:color/white"
+            android:text="Delete profile"/>
 
-            <Button
-                android:id="@+id/btn_deleteProfile"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginBottom="100dp"
-                android:background="@drawable/btn_custom"
-                android:fontFamily="@font/roboto_bold"
-                android:text="Delete profile"
-                android:textColor="@android:color/white" />
-        </RelativeLayout>
+        <Button
+            android:id="@+id/btn_logout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_custom"
+            android:fontFamily="@font/roboto_regular"
+            android:layout_marginLeft="80dp"
+            android:layout_marginRight="80dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_centerInParent="true"
+            android:textColor="@android:color/white"
+            android:text="Logout"/>
     </LinearLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

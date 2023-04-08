@@ -49,7 +49,7 @@ public class RegistrationController {
             ProfileDatabase profileDB = new ProfileDatabase();
             profileDB.InsertProfile(legalName.getText().toString(), userName.getText().toString(),
                     password.getText().toString(), phoneNumber.getText().toString());
-            System.out.println(profileDB.RetrieveProfile(userName.getText().toString()));
+            profileDB.SignalLogin(userName.getText().toString());
             ArrayList<String> userDetails = profileDB.RetrieveProfile(userName.getText().toString());
             return userDetails;
         }
