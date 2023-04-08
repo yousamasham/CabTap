@@ -9,12 +9,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-public class RecyclerAdapterOffers extends RecyclerView.Adapter<RecyclerAdapterOffers.ViewHolder>{
+public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder>{
 
     private static final String TAG = "RecyclerAdapter";
     List<List<String>> requestedRides; // get list of available requests from dispatcher and store in list
 
-    public RecyclerAdapterOffers(List<List<String>> requestedRides){
+    public RecyclerAdapter(List<List<String>> requestedRides){
         this.requestedRides = requestedRides;
     }
 
@@ -22,7 +22,7 @@ public class RecyclerAdapterOffers extends RecyclerView.Adapter<RecyclerAdapterO
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View view = layoutInflater.inflate(R.layout.activity_row_item, parent, false);
+        View view = layoutInflater.inflate(R.layout.fragment_row_item, parent, false);
         ViewHolder viewHolder = new ViewHolder(view);
         return viewHolder;
     }

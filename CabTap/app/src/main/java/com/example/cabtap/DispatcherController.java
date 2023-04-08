@@ -7,7 +7,7 @@ public class DispatcherController {
 
     // user submits requests a ride
     private void setRideRequests(String arrivalTime, String dropOff, String pickup){
-        // gets requests from 
+        // gets requests from request Ride share Page
     }
 
     private void removeRequestRide(TripInformation ride){

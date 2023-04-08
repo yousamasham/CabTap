@@ -1,36 +1,75 @@
 package com.example.cabtap;
 
-import java.util.ArrayList;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.*;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.example.cabtap.TripInformation;
+import java.util.List;
+
 
 public class DisplayOpenRidesPage extends AppCompatActivity {
-    // uses database of available rides and maps and requestride share page to find nearst available rides
-    // and display it
-
-    TextView text_view;
-    ArrayList<TripInformation> availableRides = new ArrayList<>();
- 
+    RecyclerView recyclerView;
+    RecyclerAdapter recyclerAdapter;
+    List<List<String>> openRides; // modify to correct type
+    SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
-    public void onCreate(Bundle savedInstanceState){
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.DisplayOpenRidesPage);
+        setContentView(R.layout.fragment_displayopenrides);
+        recyclerView = findViewById(R.id.recyclerView);
+        recyclerAdapter = new RecyclerAdapter(openRides);
 
-        //text_view = findViewById(R.id.text_view);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(recyclerAdapter);
+
+        // now adds lines to seperate each item
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
+        recyclerView.addItemDecoration((dividerItemDecoration));
+
+        // get list of available requests from dispatcher and store in the requestedRides list
+
+        swipeRefreshLayout = findViewById((R.id.swipeRefreshLayout));
+        swipeRefreshLayout.setOnRefreshListener((new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // get list of open rides and their info from dispatcher again (call dispatcher to
+                // to give info and add it into openRides.
+                // openRides.add(Dispatcher.getRides())
+                recyclerAdapter.notifyDataSetChanged();
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        }));
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
+        itemTouchHelper.attachToRecyclerView(recyclerView);
     }
 
-    // content that will be displayed on the page (all the open rides with the accept and reject buttons)
-    private void showRidesContent(){
-        //call dispatcher to get array of rides offers
+    ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+        @Override
+        public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+            return false;
+        }
 
-    }
+        @Override
+        public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+            int position = viewHolder.getAdapterPosition();
+            switch (direction) {
+                //request this ride = swipe left
+                case ItemTouchHelper.LEFT:
+                    // Intent intent = new Intent(getActivity(), waitForAccept.class); //need to create in transit pag
+                    // Dispatcher.receiveRideShareOffer();
+                    break;
+                //reject = swipe right
+                case ItemTouchHelper.RIGHT:
+                    openRides.remove(position);
+                    recyclerAdapter.notifyItemRemoved(position);
+                    break;
+            }
+        }
+    };
 }
