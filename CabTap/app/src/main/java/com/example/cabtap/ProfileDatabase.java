@@ -1,7 +1,6 @@
 package com.example.cabtap;
 
 import com.google.android.gms.tasks.Task;
-import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.ArrayList;
@@ -80,13 +79,19 @@ public class ProfileDatabase {
     }
 
     private static boolean VerifyLogin(String username){
-        Map<String, Object> mapResult = firestore.collection("currentlyLoggedIn").document(username).get().getResult().getData();
-        return !mapResult.isEmpty();
+        Task query = firestore.collection("currentlyLoggedIn").document(username).get();
+        while (!query.isComplete());
+        DocumentSnapshot mapRes = (DocumentSnapshot) query.getResult();
+        Map<String, Object> map = mapRes.getData();
+        return !map.isEmpty();
     }
 
     private static boolean VerifyPaused(String username){
-        Map<String, Object> mapResult = firestore.collection("currentlyPaused").document(username).get().getResult().getData();
-        return !mapResult.isEmpty();
+        Task query = firestore.collection("currentlyPaused").document(username).get();
+        while (!query.isComplete());
+        DocumentSnapshot mapRes = (DocumentSnapshot) query.getResult();
+        Map<String, Object> map = mapRes.getData();
+        return !map.isEmpty();
     }
 
     protected static boolean DeleteProfile(String username) throws Exception{
@@ -163,7 +168,13 @@ public class ProfileDatabase {
             throw new Exception("Bad request, system cannot determine which field was requested to be modified");
         }
 
-        Map<String, Object> encResult = firestore.collection("profiles").document(username).get().getResult().getData();
+        Task query = firestore.collection("profiles").document(username).get();
+
+        while(!query.isComplete());
+
+        DocumentSnapshot mapRes = (DocumentSnapshot) query.getResult();
+
+        Map<String, Object> encResult = mapRes.getData();
         
         if (encResult.isEmpty()){
             throw new Exception("Cannot find the user with supplied username");

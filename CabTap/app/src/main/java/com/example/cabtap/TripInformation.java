@@ -7,7 +7,15 @@ public class TripInformation {
     protected String destination;
     protected LocalTime rideTime;
     protected float rideFare;
-    protected ArrayList usersEncountered;
+    protected int capacity;
+    protected ArrayList<String> usersEncountered;
+
+    public TripInformation(String pickupLocation, String destination, String username, int desiredCap){
+        this.pickupLocation = pickupLocation;
+        this.destination = destination;
+        usersEncountered.add(username);
+        this.capacity = desiredCap;
+    }
 
     protected void setPickupLocation(String pickup){
         pickupLocation = pickup;
@@ -23,6 +31,10 @@ public class TripInformation {
 
     protected String getDestination(){
         return destination;
+    }
+
+    protected int getCapacity(){
+        return capacity;
     }
 
     protected void setRideTime(LocalTime time){
@@ -42,8 +54,8 @@ public class TripInformation {
     }
 
     // once offer is accepted, user ID will be added to the list of riders for the ride.
-    protected void setUsersEncountered(String users){
-        usersEncountered.add(users);
+    protected void addUserEncountered(String username){
+        usersEncountered.add(username);
     }
 
     protected ArrayList<String> getUsersEncountered(){
@@ -51,7 +63,7 @@ public class TripInformation {
     }
 
     // list of riders for the ride will be deleted once the ride is completed.
-    protected void clearUsers(){
+    protected void finishRide(){
         usersEncountered.clear();;
     }
 }
