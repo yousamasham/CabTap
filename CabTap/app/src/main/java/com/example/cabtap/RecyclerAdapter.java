@@ -9,12 +9,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder>{
+public class RecyclerAdapterOffers extends RecyclerView.Adapter<RecyclerAdapterOffers.ViewHolder>{
 
     private static final String TAG = "RecyclerAdapter";
     List<List<String>> requestedRides; // get list of available requests from dispatcher and store in list
 
-    public RecyclerAdapter(List<List<String>> requestedRides){
+    public RecyclerAdapterOffers(List<List<String>> requestedRides){
         this.requestedRides = requestedRides;
     }
 
