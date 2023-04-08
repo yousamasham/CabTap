@@ -1,10 +1,7 @@
 package com.example.cabtap;
-import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -25,7 +22,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View view = layoutInflater.inflate(R.layout.row_item, parent, false);
+        View view = layoutInflater.inflate(R.layout.activity_row_item, parent, false);
         ViewHolder viewHolder = new ViewHolder(view);
         return viewHolder;
     }
@@ -44,7 +41,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         return requestedRides.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder { //implements View.OnClickListener
 
         TextView pickupTextView;
         TextView dropOffTextView;
@@ -57,7 +54,13 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             approxTimeTextView = itemView.findViewById((R.id.approxTimeTextView));
             approxSavingsTextView = itemView.findViewById((R.id.approxSavingsTextView));
 
+            //itemView.setOnClickListener(this);
         }
+
+        //@Override
+        //public void onClick(View view) {
+        //    Toast.makeText(view.getContext(getAdapterPosition()), requestedRides.get(), Toast)
+        //}
     }
 
 }
