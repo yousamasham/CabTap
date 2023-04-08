@@ -1,29 +1,30 @@
 package com.example.cabtap;
 
+import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ProfileDatabase {
-    private static ArrayList<ArrayList<String>> encryptedUserList;
-    private static ArrayList<String> usersLoggedIn;
     private static EncryptionController encryptor;
-    private static ArrayList<String> usersPaused;
+    private static FirebaseFirestore firestore;
 
     ProfileDatabase() throws Exception {
         //init encryptor
         try{
             encryptor = new EncryptionController();
+            firestore = FirebaseFirestore.getInstance();
         }
         catch(Exception E){
             throw E;
         }
-        encryptedUserList = new ArrayList<ArrayList<String>>();
-        usersLoggedIn = new ArrayList<String>();
-        usersPaused = new ArrayList<String>();
     }
 
-    protected static void InsertProfile(String ptLegalName, String ptUsername, String ptPassword, String ptPhoneNumber) throws Exception{
-        //create profile arrayList
-        ArrayList<String> encNewProfile = new ArrayList<String>();
+    protected static boolean InsertProfile(String ptLegalName, String ptUsername, String ptPassword, String ptPhoneNumber) throws Exception{
+
         ArrayList<String> ptNewProfile = new ArrayList<String>(){
             {
                 add(ptLegalName);
@@ -33,45 +34,59 @@ public class ProfileDatabase {
             }
         };
 
-        encNewProfile = encryptor.getEncryption(ptNewProfile);
+        ArrayList<String> encProfileList = encryptor.getEncryption(ptNewProfile);
 
-        //Ensure uniqueness
-        for (ArrayList<String> encProfile : encryptedUserList) {
-            if (encProfile.get(ProfileField.USERNAME.ordinal()).equals(encNewProfile.get(ProfileField.USERNAME.ordinal())))
-                throw new Exception("Username already exists. Please select another one.");
+        Map<String, Object> newUser = new HashMap<>();
+        newUser.put("legalname", encProfileList.get(ProfileField.LEGALNAME.ordinal()));
+        newUser.put("username", encProfileList.get(ProfileField.USERNAME.ordinal()));
+        newUser.put("password", encProfileList.get(ProfileField.PASSWORD.ordinal()));
+        newUser.put("phonenumber", encProfileList.get(ProfileField.PHONENUMBER.ordinal()));
+        newUser.put("rewardsbal", 0);
+        try{
+            firestore.collection("profiles").document((String) newUser.get("username")).set(newUser);
+        }
+        catch (Exception E){
+            throw E;
         }
 
-        //New profile is unique, add it to DB.
-        encryptedUserList.add(encNewProfile);
+        return true;
     }
 
     protected static ArrayList<String> RetrieveProfile(String username) throws Exception{
-        //find profile
-        ArrayList<String> resultProfile = new ArrayList<String>();
-        for (ArrayList<String> encProfile : encryptedUserList){
-            if (encProfile.get(ProfileField.USERNAME.ordinal()).equals(username)){
-                //construct results
-                ArrayList<String> decProfile = encryptor.getDecryption(encProfile);
-                resultProfile.add((String)decProfile.get(ProfileField.LEGALNAME.ordinal()));
-                resultProfile.add((String)decProfile.get(ProfileField.USERNAME.ordinal()));
-                resultProfile.add((String)decProfile.get(ProfileField.PHONENUMBER.ordinal()));
-                break;
+
+        Task query = firestore.collection("profiles").document(username).get();
+
+        while (!query.isComplete());
+
+        DocumentSnapshot mapRes = (DocumentSnapshot) query.getResult();
+
+        Map<String, Object> map = mapRes.getData();
+
+        ArrayList<String> resEnc = new ArrayList<String>(){
+            {
+                add(map.get("legalname").toString());
+                add(map.get("username").toString());
+                add(map.get("password").toString());
+                add(map.get("phonenumber").toString());
+                add(map.get("rewardsbal").toString());
             }
-        }
-        //return results
-        if (resultProfile.size() > 0)
-            return resultProfile;
-        else{
-            throw new Exception("Username not found within database");
-        }
+        };
+
+        ArrayList<String> decRes = encryptor.getDecryption(resEnc);
+
+        decRes.remove(ProfileField.PASSWORD.ordinal());
+
+        return decRes;
     }
 
     private static boolean VerifyLogin(String username){
-        return usersLoggedIn.contains(username);
+        Map<String, Object> mapResult = firestore.collection("currentlyLoggedIn").document(username).get().getResult().getData();
+        return !mapResult.isEmpty();
     }
 
     private static boolean VerifyPaused(String username){
-        return usersPaused.contains(username);
+        Map<String, Object> mapResult = firestore.collection("currentlyPaused").document(username).get().getResult().getData();
+        return !mapResult.isEmpty();
     }
 
     protected static boolean DeleteProfile(String username) throws Exception{
@@ -80,38 +95,61 @@ public class ProfileDatabase {
         if(VerifyPaused(username))
             throw new Exception("Please ensure that user profile is not paused before deletion");
 
-        int index = findDBIndex(username);
-
-        encryptedUserList.remove(index);
+        try{
+            firestore.collection("currentlyPaused").document(username).delete();
+        }
+        catch (Exception E){
+            throw E;
+        }
 
         return true;
     }
 
-    protected static void SignalLogin(String username){
-        usersLoggedIn.add(username);
-    }
-
-    protected static void SignalLogout(String username){
-        usersLoggedIn.remove(username);
-    }
-
-    protected static void SignalPause(String username){
-        usersPaused.add(username);
-    }
-
-    protected static void SignalUnpause(String username){
-        usersPaused.remove(username);
-    }
-
-    private static int findDBIndex(String username){
-        for (int i = 0; i < encryptedUserList.size(); i++){
-            if (encryptedUserList.get(i).get(ProfileField.USERNAME.ordinal()).equals(username))
-                return i;
+    protected static boolean SignalLogin(String username){
+        Map<String, Boolean> map = new HashMap<String, Boolean>();
+        map.put("signedin", true);
+        try{
+            firestore.collection("currentlyLoggedIn").document(username).set(map);
         }
-        return -1;
+        catch (Exception E){
+            throw E;
+        }
+        return true;
     }
 
-    protected static boolean modifyProfile(String username, ProfileField field, String newVal) throws Exception{
+    protected static boolean SignalLogout(String username){
+        try{
+            firestore.collection("currentlyLoggedIn").document(username).delete();
+        }
+        catch (Exception E){
+            throw E;
+        }
+        return true;
+    }
+
+    protected static boolean SignalPause(String username){
+        Map<String, Boolean> map = new HashMap<String, Boolean>();
+        map.put("paused", true);
+        try{
+            firestore.collection("currentlyPaused").document(username).set(map);
+        }
+        catch (Exception E){
+            throw E;
+        }
+        return true;
+    }
+
+    protected static boolean SignalUnpause(String username){
+        try{
+            firestore.collection("paused").document(username).delete();
+        }
+        catch (Exception E){
+            throw E;
+        }
+        return true;
+    }
+
+    protected static boolean modifyProfile(String username, ProfileField field, Object newVal) throws Exception{
         //verify user is logged in
         if (!VerifyLogin(username)){
             throw new Exception("User is not logged in");
@@ -124,41 +162,64 @@ public class ProfileDatabase {
         if (field.ordinal() > 3){
             throw new Exception("Bad request, system cannot determine which field was requested to be modified");
         }
-        int DBindex = findDBIndex(username);
-        if (DBindex == -1){
+
+        Map<String, Object> encResult = firestore.collection("profiles").document(username).get().getResult().getData();
+        
+        if (encResult.isEmpty()){
             throw new Exception("Cannot find the user with supplied username");
         }
 
-        if(field.ordinal() == 0){
-            encryptedUserList.get(DBindex).set(field.ordinal(), newVal);
+        if(field.ordinal() == 0){ //legalname
+            encResult.put("legalname", newVal);
+            firestore.collection("profiles").document(username).set(encResult);
         }
-        else if (field.ordinal() == 1){
+        
+        else if(field.ordinal() == 4){
+            encResult.put("rewardsbal", (int) newVal);
+        }
+        
+        else if (field.ordinal() == 1){ //username
             throw new Exception("Cannot edit username");
         }
         else{
-            ArrayList<String> decryptedUserDetails = encryptor.getDecryption(encryptedUserList.get(DBindex));
+
+            ArrayList<String> encList = new ArrayList<String>(){
+                {
+                    add((String)encResult.get("legalname"));
+                    add((String) encResult.get("username"));
+                    add((String) encResult.get("password"));
+                    add((String) encResult.get("phonenumber"));
+                }
+            };
+
+            ArrayList<String> decResult = encryptor.getDecryption(encList);
             ArrayList<String> pseudoNewUser = new ArrayList<String>(){
                 {
-                    add((String)decryptedUserDetails.get(ProfileField.LEGALNAME.ordinal()));
-                    add((String)decryptedUserDetails.get(ProfileField.USERNAME.ordinal()));
+                    add((String)decResult.get(ProfileField.LEGALNAME.ordinal()));
+                    add((String)decResult.get(ProfileField.USERNAME.ordinal()));
                 }
             };
 
             if (field.ordinal() == 2){ //User requesting to modify Password
-                pseudoNewUser.add(newVal);
-                pseudoNewUser.add((String)decryptedUserDetails.get(ProfileField.PHONENUMBER.ordinal()));
+                pseudoNewUser.add((String) newVal);
+                pseudoNewUser.add((String)decResult.get(ProfileField.PHONENUMBER.ordinal()));
             }
             else{ //User requesting to modify PhoneNumber
-                pseudoNewUser.add((String)decryptedUserDetails.get(ProfileField.PASSWORD.ordinal()));
-                pseudoNewUser.add(newVal);
+                pseudoNewUser.add((String)decResult.get(ProfileField.PASSWORD.ordinal()));
+                pseudoNewUser.add((String) newVal);
             }
 
             ArrayList<String> encryptedPseudoNewUser = encryptor.getEncryption(pseudoNewUser);
-            encryptedUserList.remove(DBindex);
-            encryptedUserList.add(encryptedPseudoNewUser);
+            Map<String, Object> encProfile = new HashMap<String, Object>(){
+                {
+                    put("legalname", encryptedPseudoNewUser.get(ProfileField.LEGALNAME.ordinal()));
+                    put("username", encryptedPseudoNewUser.get(ProfileField.USERNAME.ordinal()));
+                    put("password", encryptedPseudoNewUser.get(ProfileField.PASSWORD.ordinal()));
+                    put("phonenumber", encryptedPseudoNewUser.get(ProfileField.PHONENUMBER.ordinal()));
+                    put("rewardsbal", 0);
+                }
+            };
         }
         return true;
     }
-
-
 }

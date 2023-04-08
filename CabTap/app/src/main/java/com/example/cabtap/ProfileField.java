@@ -3,5 +3,7 @@ public enum ProfileField{
     LEGALNAME,
     USERNAME,
     PASSWORD,
-    PHONENUMBER
+    PHONENUMBER,
+
+    REWARDSBAL
 }

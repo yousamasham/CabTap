@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/ride"
+        android:icon="@drawable/baseline_directions_car_24"
+        android:title="Ride" />
+
+
+    <item
+        android:id="@+id/offer"
+        android:icon="@drawable/baseline_handshake_24"
+        android:title="Offer" />
+
+    <item
+        android:id="@+id/profile"
+        android:icon="@drawable/baseline_person_24"
+        android:title="Profile" />
+</menu>
