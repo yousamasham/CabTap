@@ -1,5 +1,6 @@
 package com.example.cabtap;
 
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -43,7 +44,12 @@ public class TripDatabase {
         ArrayList<TripInformation> result = new ArrayList<TripInformation>();
 
         try{
-            QuerySnapshot queryRes = firestore.collection("trips").whereEqualTo("destination", destination).get().getResult();
+            Task queryTask = firestore.collection("trips").whereEqualTo("destination", destination).get();
+
+            while (!queryTask.isComplete());
+
+            QuerySnapshot queryRes = (QuerySnapshot) queryTask.getResult();
+
             for (QueryDocumentSnapshot docRes : queryRes){
                 TripInformation trip = docRes.toObject(TripInformation.class);
                 result.add(trip);
