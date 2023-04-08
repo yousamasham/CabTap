@@ -27,10 +27,6 @@ public class EncryptionController {
         };
 
         this.key = new SecretKeySpec(encoded, "AES");
-
-        //KeyGenerator keyGenerator = KeyGenerator.getInstance("AES");
-        //keyGenerator.init(128);
-        //this.key = keyGenerator.generateKey();
     }
 
     // (LegalName, UserName, Password, PhoneNumber)
