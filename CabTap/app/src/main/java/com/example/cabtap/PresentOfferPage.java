@@ -1,6 +1,5 @@
 package com.example.cabtap;
 
-import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,7 +20,7 @@ public class PresentOfferPage extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_presentofferpage);
+        setContentView(R.layout.fragment_presentofferpage);
         recyclerView = findViewById(R.id.recyclerView);
         recyclerAdapter = new RecyclerAdapter(requestedRides);
 
@@ -40,6 +39,7 @@ public class PresentOfferPage extends AppCompatActivity {
             public void onRefresh() {
                 // get list of open rides and their info from dispatcher again (call dispatcher to
                 // to give info and add it into requestedRides.
+                // requestedRides.add(Dispatcher.getRides())
                 recyclerAdapter.notifyDataSetChanged();
                 swipeRefreshLayout.setRefreshing(false);
             }
@@ -56,12 +56,12 @@ public class PresentOfferPage extends AppCompatActivity {
         public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
             int position = viewHolder.getAdapterPosition();
             switch (direction) {
-                //accept
+                //accept = swipe left
                 case ItemTouchHelper.LEFT:
-                    Intent intent = new Intent(getActivity(), InTransitPage.class); //need to create in transit page
+                    //Intent intent = new Intent(getActivity(), InTransitPage.class); //need to create in transit page
                     //call dispatcher to pair the riders tg
                     break;
-                //reject
+                //reject = swipe right
                 case ItemTouchHelper.RIGHT:
                     requestedRides.remove(position);
                     recyclerAdapter.notifyItemRemoved(position);
@@ -69,5 +69,4 @@ public class PresentOfferPage extends AppCompatActivity {
             }
         }
     };
-
 }
