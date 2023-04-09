@@ -34,6 +34,16 @@ public class OfferRideSharePage extends Fragment {
                 // calculate the approx route to show to requesters
                 // send info to dispatcher controller
                 //displayConfirmation();
+
+                // THIS IS TESTER CODE FOR MAPS ~Cieran
+                String drop = dropOff.getText().toString().trim();
+                String seats = availableSeats.getText().toString().trim();
+                if (drop != null && seats != null) {
+                    Intent intent = new Intent(getActivity(), InTransitPage.class);
+                    intent.putExtra("destination", drop);
+                    intent.putExtra("seats", seats);
+                    startActivity(intent);
+                }
             }
         });
     }
