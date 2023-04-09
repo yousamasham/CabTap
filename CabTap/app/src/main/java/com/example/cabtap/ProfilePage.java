@@ -11,15 +11,23 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class ProfilePage extends Fragment {
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
+public class ProfilePage extends Fragment {
     TextView legalNameTV;
     TextView userNameTV;
     TextView phoneNumberTV;
-
     TextView tripsCompletedTV;
     TextView avgRatingTV;
     TextView rewardsBalTV;
+    Button changeLegalName;
+    Button changePhoneNumber;
+    Button changePassword;
     Button logout;
 
 
@@ -39,6 +47,9 @@ public class ProfilePage extends Fragment {
     @Override
     public void onViewCreated(View view,  Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        changePassword = (Button) getView().findViewById(R.id.btn_ModifyPassword);
+        changeLegalName = (Button) getView().findViewById(R.id.btn_ModifyLegalName);
+        changePhoneNumber = (Button) getView().findViewById(R.id.btn_ModifyPhoneNumber);
         logout = (Button) getView().findViewById(R.id.btn_logout);
         Bundle args = getArguments();
         String username = args.getString("username");
@@ -61,11 +72,19 @@ public class ProfilePage extends Fragment {
         rewardsBalTV = (TextView)  getView().findViewById(R.id.rewardBal);
         rewardsBalTV.setText("Available rewards balance: "+rewardsBal);
 
+        ProfileDatabase db;
+        ArrayList<String> profile;
+        try {
+            db = new ProfileDatabase();
+            profile = db.RetrieveProfile(username);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
-                    ProfileDatabase db = new ProfileDatabase();
                     db.SignalLogout(username);
                 } catch (Exception e) {
                     throw new RuntimeException(e);
@@ -74,6 +93,52 @@ public class ProfilePage extends Fragment {
                 startActivity(intent);
             }
         });
+
+        changePassword.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                try{
+                    Fragment fragment = ModifyProfilePage.newInstance(ProfileField.PASSWORD, new SessionDetails(profile));
+                    replaceFragment(fragment);
+                }
+                catch (Exception E){
+                    throw E;
+                }
+            }
+        });
+
+        changeLegalName.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                try{
+                    Fragment fragment = ModifyProfilePage.newInstance(ProfileField.LEGALNAME, new SessionDetails(profile));
+                    replaceFragment(fragment);
+                }
+                catch (Exception E){
+                    throw E;
+                }
+            }
+        });
+
+        changePhoneNumber.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                try{
+                    Fragment fragment = ModifyProfilePage.newInstance(ProfileField.PHONENUMBER, new SessionDetails(profile));
+                    replaceFragment(fragment);
+                }
+                catch (Exception E){
+                    throw E;
+                }
+            }
+        });
+    }
+
+    private void replaceFragment(Fragment fragment) {
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.frame_layout, fragment);
+        fragmentTransaction.commit();
     }
 
     @Override
