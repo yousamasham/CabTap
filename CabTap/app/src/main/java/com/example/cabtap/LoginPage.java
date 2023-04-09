@@ -31,6 +31,7 @@ public class LoginPage extends Fragment {
             @Override
             public void onClick(View view) {
                 try{
+                    Toast.makeText(getContext(), "Hold tight, we are logging you in...", Toast.LENGTH_LONG).show();
                     SessionDetails session = new SessionDetails(controller.login(userName,  password));
                     Intent intent = new Intent(getActivity(), LoggedInMainActivity.class);
                     intent.putExtra("legalName", session.getSessionLegalName());

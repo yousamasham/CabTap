@@ -1,5 +1,6 @@
 package com.example.cabtap;
 
+import android.content.Context;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -13,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -84,9 +86,11 @@ public class ModifyProfilePage extends Fragment {
                     switch (args.getString("field")){
                         case "legalname":
                             db.ModifyProfile(args.getString("username"), ProfileField.LEGALNAME, newValET.getText().toString());
+                            Toast.makeText(getContext(), "Legal name changed successfully!", Toast.LENGTH_SHORT).show();
                             break;
                         case "phonenumber":
                             db.ModifyProfile(args.getString("username"), ProfileField.PHONENUMBER, newValET.getText().toString());
+                            Toast.makeText(getContext(), "Phone number changed successfully!", Toast.LENGTH_SHORT).show();
                             break;
                         case "password":
                             String oldPassword = db.RetrieveProfile(args.getString("username")).get(ProfileField.PASSWORD.ordinal());
@@ -100,6 +104,7 @@ public class ModifyProfilePage extends Fragment {
                                 throw new Exception("Exception Message");
                             }
                             db.ModifyProfile(args.getString("username"), ProfileField.PASSWORD, newValET.getText().toString());
+                            Toast.makeText(getContext(), "Password changed successfully!", Toast.LENGTH_SHORT).show();
                     }
                     ArrayList<String> profile = db.RetrieveProfile(args.getString("username"));
                     Fragment fragment = ProfilePage.newInstance(new SessionDetails(profile));
