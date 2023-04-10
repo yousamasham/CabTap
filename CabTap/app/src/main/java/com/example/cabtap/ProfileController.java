@@ -5,7 +5,8 @@ public class ProfileController {
 
     protected static ArrayList<String> RequestRetrieveProfile(String username) throws Exception{
         try{
-            return ProfileDatabase.RetrieveProfile(username);
+            ProfileDatabase db = new ProfileDatabase();
+            return db.RetrieveProfile(username);
         }
 
         catch (Exception E){
@@ -14,17 +15,21 @@ public class ProfileController {
     }
 
     protected static boolean RequestEditProfile(String username, String field, String newVal) throws Exception{
-        ProfileField fieldToPass = ProfileField.LEGALNAME;
+        ProfileField fieldToPass;
         switch (field.toLowerCase().trim()){
             case "phonenumber":
                 fieldToPass = ProfileField.PHONENUMBER;
                 break;
             case "legalname":
+                fieldToPass = ProfileField.LEGALNAME;
                 break;
+            default:
+                fieldToPass = ProfileField.PASSWORD;
         }
 
         try{
-            return ProfileDatabase.modifyProfile(username, fieldToPass, newVal);
+            ProfileDatabase db = new ProfileDatabase();
+            return db.ModifyProfile(username, fieldToPass, newVal);
         }
         catch (Exception E){
             throw E;
@@ -34,16 +39,18 @@ public class ProfileController {
     protected static boolean RequestEditCredentials(String username, String newVal) throws Exception{
         ProfileField fieldToPass = ProfileField.PASSWORD;
         try{
-            return ProfileDatabase.modifyProfile(username, fieldToPass, newVal);
+            ProfileDatabase db = new ProfileDatabase();
+            return db.ModifyProfile(username, fieldToPass, newVal);
         }
         catch (Exception E){
             throw E;
         }
     }
 
-    protected static boolean RequestDeleteProfile(String username) throws Exception{
+    protected boolean RequestDeleteProfile(String username) throws Exception{
         try{
-            return ProfileDatabase.DeleteProfile(username);
+            ProfileDatabase db = new ProfileDatabase();
+            return db.DeleteProfile(username);
         }
         catch (Exception E){
             throw E;

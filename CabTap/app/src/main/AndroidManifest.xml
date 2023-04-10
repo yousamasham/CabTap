@@ -11,6 +11,9 @@
         android:theme="@style/Theme.CabTap"
         tools:targetApi="31">
         <activity
+            android:name=".UnpauseProfileActivity"
+            android:exported="false" />
+        <activity
             android:name=".LoggedInMainActivity"
             android:exported="false" />
         <activity android:name=".InTransitPage" />
