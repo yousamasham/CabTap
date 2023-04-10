@@ -5,31 +5,32 @@ public class DispatcherController {
 
     //ArrayList<TripInformation> rideRequests = new ArrayList<TripInformation>();
 
-    // user submits requests a ride
     private void setRideRequests(TripInformation ride){
         TripDatabase.InsertTrip(trip);
     }
 
     private void removeRequestRide(TripInformation ride){
-        rideRequests.remove(ride);
-        // either 
+        TripDatabase.RemoveTrips(ride);
     }
 
     private void sendRideShareOffer(TripInformation ride){
-        // sends offer to DisplayOpenRidesPage
+        DisplayOpenRidesPage.updateRides(ride);
     }
 
+    //I think this can be removed and we just use setRideRequests
     protected void recieveRideShareOffer(){
         // gets from offerRideSharePage
     }
 
     protected void pairRiders(){
-        // calls getRides(), recieveRideShareOffer(), and the answer of the offerer
+        getRides();
+        recieveRideShareOffer();
+        sendRideShareOffer();
     }
 
     protected ArrayList<TripInformation> getRides(){
         ArrayList<TripInformation> rideOffers = new ArrayList<TripInformation>();
-        //search available rides and add rides that are applicable
+        rideOffers = TripDatabase.AvailableTrips();
         return rideOffers;
 
     }

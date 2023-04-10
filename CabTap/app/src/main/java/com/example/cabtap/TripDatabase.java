@@ -70,4 +70,19 @@ public class TripDatabase {
             throw E;
         }
     }
+
+    protected static ArrayList<TripInformation> AvailableTrips(){
+        ArrayList<TripInformation> result = new ArrayList<TripInformation>();
+        try{
+            task query = firestore.collection("trips").document().get();
+            for(QueryDocumentSnapshot docRes : query){ 
+                TripInformation trip = docRes.toObject(TripInformation.class);
+                result.add(trip);
+            }
+        }
+        catch (Exception E){
+            throw E;
+        }
+        return result;
+    }
 }

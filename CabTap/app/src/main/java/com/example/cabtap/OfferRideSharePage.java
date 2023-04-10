@@ -30,9 +30,19 @@ public class OfferRideSharePage extends Fragment {
             @Override
             public void onClick(View view) {
                 // get current location of rider
-                // validate that dropOff != current location otherwise show an error
+                /*if(dropOff == currentLocation){//add out of range checks to if
+                    throw new ValidTripException("Invalid pickup and/or dropoff locations entered.");
+                }*/
                 // calculate the approx route to show to requesters
-                // send info to dispatcher controller
+                
+                TripInformation trip = new TripInformation();
+                //trip.setPickupLocation(currentLocation);
+                trip.setDestination(dropOff);
+                trip.setRideTime(Time.now());
+                trip.setDate(Date.now());
+                trip.setCapacity(availableSeats);
+                controller.setRideRequests(trip);
+
                 //displayConfirmation();
 
                 // THIS IS TESTER CODE FOR MAPS ~Cieran
@@ -65,5 +75,10 @@ public class OfferRideSharePage extends Fragment {
         routeDetails.add(approxTime);
         routeDetails.add(approxSaving);
         return routeDetails;
+    }
+}
+public class ValidTripException extends Exception{
+    public ValidTripException(String message){
+        super(message);
     }
 }

@@ -37,6 +37,9 @@ public class PresentOfferPage extends AppCompatActivity {
         swipeRefreshLayout.setOnRefreshListener((new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                DispatcherController controller = new DispatcherController();
+                ArrayList<TripInformation> rides = new ArrayList<TripInformation>();
+                rides = controller.getRides();
                 // get list of open rides and their info from dispatcher again (call dispatcher to
                 // to give info and add it into requestedRides.
                 // requestedRides.add(Dispatcher.getRides())
