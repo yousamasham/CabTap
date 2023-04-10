@@ -39,6 +39,7 @@ public class RegistrationPage extends Fragment {
             public void onClick(View view) {
                 //VALIDATE REGISTRATION
                 try{
+                    Toast.makeText(getContext(), "Hold tight, we are signing you up...", Toast.LENGTH_SHORT).show();
                     SessionDetails session = new SessionDetails(controller.validateCredentials(legalName, userName,  phoneNumber, password,  rePassword));
                     Intent intent = new Intent(getActivity(), LoggedInMainActivity.class);
                     intent.putExtra("legalName", session.getSessionLegalName());

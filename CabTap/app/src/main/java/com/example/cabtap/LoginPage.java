@@ -31,15 +31,25 @@ public class LoginPage extends Fragment {
             @Override
             public void onClick(View view) {
                 try{
+                    Toast.makeText(getContext(), "Hold tight, we are logging you in...", Toast.LENGTH_LONG).show();
+                    ProfileDatabase db = new ProfileDatabase();
                     SessionDetails session = new SessionDetails(controller.login(userName,  password));
-                    Intent intent = new Intent(getActivity(), LoggedInMainActivity.class);
-                    intent.putExtra("legalName", session.getSessionLegalName());
-                    intent.putExtra("username", session.getSessionUsername());
-                    intent.putExtra("phoneNumber", session.getSessionPhoneNumber());
-                    intent.putExtra("tripsCompleted", session.getSessionTripsCompleted());
-                    intent.putExtra("rating", session.getSessionRating());
-                    intent.putExtra("rewardsBal", session.getSessionRewardsBalance());
-                    startActivity(intent);
+                    if(!db.VerifyPaused(session.getSessionUsername())){
+                        Intent intent = new Intent(getActivity(), LoggedInMainActivity.class);
+                        intent.putExtra("legalName", session.getSessionLegalName());
+                        intent.putExtra("username", session.getSessionUsername());
+                        intent.putExtra("phoneNumber", session.getSessionPhoneNumber());
+                        intent.putExtra("tripsCompleted", session.getSessionTripsCompleted());
+                        intent.putExtra("rating", session.getSessionRating());
+                        intent.putExtra("rewardsBal", session.getSessionRewardsBalance());
+                        startActivity(intent);
+                    }
+                    else{
+                        Intent intent = new Intent(getActivity(), UnpauseProfileActivity.class);
+                        intent.putExtra("legalname", session.getSessionLegalName());
+                        intent.putExtra("username", session.getSessionUsername());
+                        startActivity(intent);
+                    }
                 }
                 catch(Exception E){
 

@@ -18,6 +18,9 @@
             android:name=".GamePage"
             android:exported="false" />
         <activity
+            android:name=".UnpauseProfileActivity"
+            android:exported="false" />
+        <activity
             android:name=".LoggedInMainActivity"
             android:exported="false" />
         <activity android:name=".InTransitPage" />

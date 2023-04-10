@@ -101,30 +101,30 @@ public class ProfileDatabase {
         return decRes;
     }
 
-    private static boolean VerifyLogin(String username){
+    protected boolean VerifyLogin(String username){
         Task query = firestore.collection("currentlyLoggedIn").document(username).get();
         while (!query.isComplete());
         DocumentSnapshot mapRes = (DocumentSnapshot) query.getResult();
         Map<String, Object> map = mapRes.getData();
-        return !map.isEmpty();
+        return !(map == null);
     }
 
-    private static boolean VerifyPaused(String username){
+    protected boolean VerifyPaused(String username){
         Task query = firestore.collection("currentlyPaused").document(username).get();
         while (!query.isComplete());
         DocumentSnapshot mapRes = (DocumentSnapshot) query.getResult();
         Map<String, Object> map = mapRes.getData();
-        return !map.isEmpty();
+        return !(map == null);
     }
 
-    protected static boolean DeleteProfile(String username) throws Exception{
+    protected boolean DeleteProfile(String username) throws Exception{
         if(!VerifyLogin(username))
             throw new Exception("User is not logged in");
         if(VerifyPaused(username))
             throw new Exception("Please ensure that user profile is not paused before deletion");
 
         try{
-            firestore.collection("currentlyPaused").document(username).delete();
+            firestore.collection("profiles").document(username).delete();
         }
         catch (Exception E){
             throw E;
@@ -133,7 +133,7 @@ public class ProfileDatabase {
         return true;
     }
 
-    protected static boolean SignalLogin(String username){
+    protected boolean SignalLogin(String username){
         Map<String, Boolean> map = new HashMap<>();
         map.put("signedin", true);
         try{
@@ -145,7 +145,7 @@ public class ProfileDatabase {
         return true;
     }
 
-    protected static boolean SignalLogout(String username){
+    protected boolean SignalLogout(String username){
         try{
             firestore.collection("currentlyLoggedIn").document(username).delete();
         }
@@ -155,7 +155,7 @@ public class ProfileDatabase {
         return true;
     }
 
-    protected static boolean SignalPause(String username){
+    protected boolean SignalPause(String username){
         Map<String, Boolean> map = new HashMap<>();
         map.put("paused", true);
         try{
@@ -167,9 +167,9 @@ public class ProfileDatabase {
         return true;
     }
 
-    protected static boolean SignalUnpause(String username){
+    protected boolean SignalUnpause(String username){
         try{
-            firestore.collection("paused").document(username).delete();
+            firestore.collection("currentlyPaused").document(username).delete();
         }
         catch (Exception E){
             throw E;
@@ -177,7 +177,7 @@ public class ProfileDatabase {
         return true;
     }
 
-    protected static boolean RateUser(String username, int rating) throws Exception{
+    protected boolean RateUser(String username, int rating) throws Exception{
         ArrayList<String> profile = RetrieveProfile(username);
         int tripsCompleted = Integer.valueOf(profile.get(ProfileField.TRIPSCOMPLETED.ordinal()));
         int previousRating = Integer.valueOf(profile.get(ProfileField.RATING.ordinal()));
@@ -198,7 +198,7 @@ public class ProfileDatabase {
         return true;
     }
 
-    protected static boolean modifyProfile(String username, ProfileField field, Object newVal) throws Exception{
+    protected boolean ModifyProfile(String username, ProfileField field, Object newVal) throws Exception{
         //verify user is logged in
         if (!VerifyLogin(username)){
             throw new Exception("User is not logged in");
@@ -283,13 +283,13 @@ public class ProfileDatabase {
                     put("username", encryptedPseudoNewUser.get(ProfileField.USERNAME.ordinal()));
                     put("password", encryptedPseudoNewUser.get(ProfileField.PASSWORD.ordinal()));
                     put("phonenumber", encryptedPseudoNewUser.get(ProfileField.PHONENUMBER.ordinal()));
-                    put("rewardsbal", Integer.getInteger(encryptedPseudoNewUser.get(ProfileField.REWARDSBAL.ordinal())));
-                    put("tripscompleted", Integer.getInteger(encryptedPseudoNewUser.get(ProfileField.TRIPSCOMPLETED.ordinal())));
-                    put("rating", Integer.getInteger(encryptedPseudoNewUser.get(ProfileField.RATING.ordinal())));
+                    put("rewardsbal", Integer.parseInt(encryptedPseudoNewUser.get(ProfileField.REWARDSBAL.ordinal())));
+                    put("tripscompleted", Integer.parseInt(encryptedPseudoNewUser.get(ProfileField.TRIPSCOMPLETED.ordinal())));
+                    put("rating", Integer.parseInt(encryptedPseudoNewUser.get(ProfileField.RATING.ordinal())));
                 }
             };
             try{
-                firestore.collection("profiles").document(username).set(encryptedPseudoNewUser);
+                firestore.collection("profiles").document(username).set(encProfile);
             }
             catch (Exception E){
                 throw E;
