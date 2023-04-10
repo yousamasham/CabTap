@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.LinearLayoutCompat
+<androidx.appcompat.widget.LinearLayoutCompat
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -8,14 +8,71 @@
     android:orientation="vertical"
     tools:context=".GamePage">
 
-    <TextView
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:text="Rock Paper Scissors"
-        android:textColor="@color/black"
-        android:textSize="34dp"
-        android:textStyle="bold" />
+
+        android:orientation="horizontal">
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="30dp"
+                android:text="Computer Score:"
+                android:textColor="@color/black"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/tv_compScore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:text="0"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:text="Player Score:"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/tv_playerScore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:paddingRight="30dp"
+                android:text="0"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
 
     <TextView
         android:layout_width="match_parent"
@@ -23,29 +80,19 @@
         android:gravity="center_horizontal"
         android:paddingTop="10dp"
         android:text="Computer"
-        android:textColor="@color/teal_200"
-        android:textSize="30dp"
-        android:textStyle="bold" />
-
-    <ImageView
-        android:id="@+id/computer_move_img"
-        android:layout_width="match_parent"
-        android:layout_height="120dp"
-        android:src="@drawable/baseline_question_mark_24" />
-
-    <TextView
-        android:id="@+id/winner_tv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:text=" "
-        android:textColor="#F11010"
+        android:textColor="@color/purple_500"
         android:textSize="30dp" />
 
     <ImageView
-        android:id="@+id/user_move_img"
+        android:id="@+id/img_comPlay"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_marginBottom="100dp"
+        android:src="@drawable/baseline_question_mark_24" />
+
+
+    <ImageView
+        android:id="@+id/img_playerPlay"
         android:layout_width="match_parent"
         android:layout_height="120dp"
         android:src="@drawable/baseline_question_mark_24" />
@@ -55,98 +102,41 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:text="Player"
-        android:textColor="@color/teal_200"
+        android:textColor="@color/purple_500"
         android:textSize="30dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="20dp"
         android:orientation="horizontal">
 
-        <ImageView
-            android:id="@+id/rock_btn"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:src="@drawable/stone_icons" />
+        <ImageButton
+            android:id="@+id/btn_rock"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:src="@drawable/fist"
+            android:scaleType="fitXY"
+            android:background="@null"/>
 
-        <ImageView
-            android:id="@+id/paper_btn"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:src="@drawable/paper_icon" />
+        <ImageButton
+            android:id="@+id/btn_paper"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:src="@drawable/hand"
+            android:scaleType="fitXY"
+            android:background="@null" />
 
-        <ImageView
-            android:id="@+id/scissors_btn"
-            android:layout_width="100dp"
+        <ImageButton
+            android:id="@+id/btn_scissors"
+            android:layout_width="80dp"
             android:layout_height="100dp"
-            android:src="@drawable/scissors_icons" />
+            android:src="@drawable/scissor"
+            android:scaleType="fitXY"
+            android:background="@null" />
 
     </LinearLayout>
 
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="10dp"
-            android:text="Player Score"
-            android:textColor="@color/black"
-            android:textSize="20sp" />
-
-        <TextView
-            android:id="@+id/player_score"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="10dp"
-            android:text="0"
-            android:textColor="@color/black"
-            android:textSize="20sp" />
-
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="10dp"
-            android:text="Computer Score"
-            android:textColor="@color/black"
-            android:textSize="20dp" />
-
-        <TextView
-            android:id="@+id/computer_score"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="10dp"
-            android:text="0"
-            android:textColor="@color/black"
-            android:textSize="20sp" />
-
-    </LinearLayout>
-
-    <android.support.v7.widget.LinearLayoutCompat
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <Button
-            android:id="@+id/restart_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:backgroundTint="#ED7716"
-            android:text="Restart Game"
-            android:textColor="@color/white" />
-
-    </android.support.v7.widget.LinearLayoutCompat>
-
-</android.support.v7.widget.LinearLayoutCompat>
+</androidx.appcompat.widget.LinearLayoutCompat>

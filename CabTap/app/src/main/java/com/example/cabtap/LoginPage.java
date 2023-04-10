@@ -30,20 +30,21 @@ public class LoginPage extends Fragment {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                try{
-                    SessionDetails session = new SessionDetails(controller.login(userName,  password));
-                    Intent intent = new Intent(getActivity(), LoggedInMainActivity.class);
-                    intent.putExtra("legalName", session.getSessionLegalName());
-                    intent.putExtra("username", session.getSessionUsername());
-                    intent.putExtra("phoneNumber", session.getSessionPhoneNumber());
-                    intent.putExtra("tripsCompleted", session.getSessionTripsCompleted());
-                    intent.putExtra("rating", session.getSessionRating());
-                    intent.putExtra("rewardsBal", session.getSessionRewardsBalance());
-                    startActivity(intent);
-                }
-                catch(Exception E){
-
-                }
+                startActivity(new Intent(getActivity(), GamePage.class));
+//                try{
+//                    SessionDetails session = new SessionDetails(controller.login(userName,  password));
+//                    Intent intent = new Intent(getActivity(), LoggedInMainActivity.class);
+//                    intent.putExtra("legalName", session.getSessionLegalName());
+//                    intent.putExtra("username", session.getSessionUsername());
+//                    intent.putExtra("phoneNumber", session.getSessionPhoneNumber());
+//                    intent.putExtra("tripsCompleted", session.getSessionTripsCompleted());
+//                    intent.putExtra("rating", session.getSessionRating());
+//                    intent.putExtra("rewardsBal", session.getSessionRewardsBalance());
+//                    startActivity(intent);
+//                }
+//                catch(Exception E){
+//
+//                }
             }
         });
 
