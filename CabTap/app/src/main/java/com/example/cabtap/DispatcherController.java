@@ -1,31 +1,42 @@
 package com.example.cabtap;
 import java.util.ArrayList;
 
+import javax.imageio.plugins.tiff.TIFFImageReadParam;
+import javax.swing.event.TreeWillExpandListener;
+
 public class DispatcherController {
 
-    //ArrayList<TripInformation> rideRequests = new ArrayList<TripInformation>();
-
-    private void setRideRequests(TripInformation ride){
-        TripDatabase.InsertTrip(trip);
+    //Ride in progress has been offered to share
+    private void setRideOffer(TripInformation ride){
+        TripDatabase.InsertTrip(ride);
+        sendRideShareOffer(ride);
     }
 
     private void removeRequestRide(TripInformation ride){
-        TripDatabase.RemoveTrips(ride);
+        TripDatabase.RemoveRequest(ride);
     }
 
+    //Adding an added trip to the open rides for requesters
     private void sendRideShareOffer(TripInformation ride){
         DisplayOpenRidesPage.updateRides(ride);
     }
 
-    //I think this can be removed and we just use setRideRequests
-    protected void recieveRideShareOffer(){
-        // gets from offerRideSharePage
+    //Database recieves ride request
+    protected void recieveRideRequest(TripInformation ride){
+        TripDatabase.InsertRequest(ride);
     }
 
-    protected void pairRiders(){
-        getRides();
-        recieveRideShareOffer();
-        sendRideShareOffer();
+    protected void pairRiders(TripInformation ride, String username){
+        TripInformation tripRequested = TripDatabase.GetRequest(username);
+        TripDatabase.pushOffer(ride.getUsername(), tripRequested);
+        while(TripDatabase.checkOffer()==null)
+        if(TripDatabase.checkOffer()){
+            //switch waiting to accept to inTransit page
+            TripDatabase.RemoveRequest(username);
+        }
+        else{
+            //switch waiting to accept to display open rides page
+        }
     }
 
     protected ArrayList<TripInformation> getRides(){
