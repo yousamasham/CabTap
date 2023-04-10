@@ -101,7 +101,7 @@ public class ProfileDatabase {
         return decRes;
     }
 
-    private boolean VerifyLogin(String username){
+    protected boolean VerifyLogin(String username){
         Task query = firestore.collection("currentlyLoggedIn").document(username).get();
         while (!query.isComplete());
         DocumentSnapshot mapRes = (DocumentSnapshot) query.getResult();
@@ -109,7 +109,7 @@ public class ProfileDatabase {
         return !(map == null);
     }
 
-    private boolean VerifyPaused(String username){
+    protected boolean VerifyPaused(String username){
         Task query = firestore.collection("currentlyPaused").document(username).get();
         while (!query.isComplete());
         DocumentSnapshot mapRes = (DocumentSnapshot) query.getResult();
@@ -124,7 +124,7 @@ public class ProfileDatabase {
             throw new Exception("Please ensure that user profile is not paused before deletion");
 
         try{
-            firestore.collection("currentlyPaused").document(username).delete();
+            firestore.collection("profiles").document(username).delete();
         }
         catch (Exception E){
             throw E;
@@ -169,7 +169,7 @@ public class ProfileDatabase {
 
     protected boolean SignalUnpause(String username){
         try{
-            firestore.collection("paused").document(username).delete();
+            firestore.collection("currentlyPaused").document(username).delete();
         }
         catch (Exception E){
             throw E;

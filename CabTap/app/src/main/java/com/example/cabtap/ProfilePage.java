@@ -28,6 +28,8 @@ public class ProfilePage extends Fragment {
     Button changeLegalName;
     Button changePhoneNumber;
     Button changePassword;
+    Button pauseProfile;
+    Button deleteProfile;
     Button logout;
 
 
@@ -50,6 +52,8 @@ public class ProfilePage extends Fragment {
         changePassword = (Button) getView().findViewById(R.id.btn_ModifyPassword);
         changeLegalName = (Button) getView().findViewById(R.id.btn_ModifyLegalName);
         changePhoneNumber = (Button) getView().findViewById(R.id.btn_ModifyPhoneNumber);
+        pauseProfile = (Button) getView().findViewById(R.id.btn_pauseProfile);
+        deleteProfile = (Button) getView().findViewById(R.id.btn_deleteProfile);
         logout = (Button) getView().findViewById(R.id.btn_logout);
         Bundle args = getArguments();
         String username = args.getString("username");
@@ -80,6 +84,22 @@ public class ProfilePage extends Fragment {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+
+        pauseProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment fragment = ModifyProfilePage.newInstance(false, new SessionDetails(profile));
+                replaceFragment(fragment);
+            }
+        });
+
+        deleteProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment fragment = ModifyProfilePage.newInstance(true, new SessionDetails(profile));
+                replaceFragment(fragment);
+            }
+        });
 
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
