@@ -3,11 +3,11 @@ import java.util.ArrayList;
 
 public class DispatcherController {
 
-    ArrayList<TripInformation> rideRequests = new ArrayList<TripInformation>();
+    //ArrayList<TripInformation> rideRequests = new ArrayList<TripInformation>();
 
     // user submits requests a ride
-    private void setRideRequests(String arrivalTime, String dropOff, String pickup){
-        // gets requests from request Ride share Page
+    private void setRideRequests(TripInformation ride){
+        TripDatabase.InsertTrip(trip);
     }
 
     private void removeRequestRide(TripInformation ride){

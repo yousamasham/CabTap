@@ -17,14 +17,19 @@ public class RequestRideSharePage extends Fragment{
     EditText time;
     EditText passengerNum;
     Button submit;
+    DispatcherController controller = new DispatcherController();
 
     private void validateTripInfo(){
-        if(isNull(dropOff) || isNull(pickUp) || isNull(date) || isNull(time) || isNull(passengerNum)){
-            //display error message to fill all fields
+        try{
+            if(isNull(dropOff) || isNull(pickUp) || isNull(date) || isNull(time) || isNull(passengerNum)){
+                throw new ValidTripException("Please fill all fields."); 
+            }
+            if(dropOff == pickUp){
+                throw new ValidTripException("Invalid pickup and/or dropoff locations entered.");
+            }
         }
-        if(dropOff == pickUp){
-            //add out of range checks
-            //display message that ride is invalid
+        catch(Exception E){
+
         }
     }
 
@@ -41,9 +46,14 @@ public class RequestRideSharePage extends Fragment{
             @Override
             public void onClick(View view) {
                 validateTripInfo();
+                TripInformation trip = new TripInformation();
+                trip.setPickupLocation(pickUp);
+                trip.setDestination(dropOff);
+                trip.setRideTime(time);
+                trip.setDate(date);
+                trip.setCapacity(passengerNum);
+                controller.setRideRequests(trip);
                 sendInfo();
-                //send info to Dispatch controller
-                //bring user to new page
             }
         });
     }
@@ -59,4 +69,11 @@ public class RequestRideSharePage extends Fragment{
         return inflater.inflate(R.layout.fragment_requestsharepage, container, false);
     }
 
+    
+
+}
+public class ValidTripException extends Exception{
+    public ValidTripException(String message){
+        super(message);
+    }
 }

@@ -61,4 +61,13 @@ public class TripDatabase {
 
         return result;
     }
+
+    protected static void RemoveTrips(TripInformation trip){
+        try{
+            firestore.collection("trips").document().remove(trip);
+        }
+        catch (Exception E){
+            throw E;
+        }
+    }
 }
