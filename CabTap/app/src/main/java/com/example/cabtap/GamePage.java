@@ -13,7 +13,7 @@ public class GamePage extends AppCompatActivity {
 
     Random random = new Random();
 
-    ImageButton btnRock, btnPaper, btnScissors;
+    ImageButton btnRock, btnPaper, btnScissors, btnBack;
     ImageView comPlay, playerPlay;
     TextView comScoreText, playerScoreText;
 
@@ -27,10 +27,10 @@ public class GamePage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_page);
 
-
         btnRock = (ImageButton) findViewById(R.id.btn_rock);
         btnPaper = (ImageButton) findViewById(R.id.btn_paper);
         btnScissors = (ImageButton) findViewById(R.id.btn_scissors);
+        btnScissors = (ImageButton) findViewById(R.id.btn_back);
 
         comPlay =(ImageView) findViewById(R.id.img_comPlay);
         playerPlay =(ImageView) findViewById(R.id.img_playerPlay);
@@ -40,6 +40,16 @@ public class GamePage extends AppCompatActivity {
 
         comScore = 0;
         playerScore = 0;
+
+
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO SEND REWARDS POINTS TO PROFILE
+                rewardPoints = playerScore*5;
+                finish();
+            }
+        });
 
         btnRock.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,6 +127,11 @@ public class GamePage extends AppCompatActivity {
         }
         comScoreText.setText(String.valueOf(comScore));
         playerScoreText.setText(String.valueOf(playerScore));
+
+        if(comScore + playerScore >= 5){
+            rewardPoints = playerScore*5;
+            finish();
+        }
     }
 
 
