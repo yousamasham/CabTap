@@ -30,9 +30,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     // map data inside each item
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.dropOffTextView.setText(openRides.get(position).destination);
-        holder.approxTimeTextView.setText(openRides.get(position).rideTime);
-        holder.approxSavingsTextView.setText(openRides.get(position).rideFare);
+        holder.dropOffTextView.setText(openRides.get(position).destination); //dispatcher offers list[1] (will be the dropoff locations)
+        holder.approxTimeTextView.setText(openRides.get(position).rideTime); //dispatcher offers list[2] (will be the approx time)
+        holder.approxSavingsTextView.setText(openRides.get(position).rideFare); //dispatcher offers list[3] (will be the approx savings)
     }
 
     @Override
@@ -42,11 +42,13 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
     class ViewHolder extends RecyclerView.ViewHolder { //implements View.OnClickListener
 
+        TextView pickupTextView;
         TextView dropOffTextView;
         TextView approxTimeTextView;
         TextView approxSavingsTextView;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            pickupTextView = itemView.findViewById(R.id.pickupTextView);
             dropOffTextView = itemView.findViewById((R.id.dropOffTextView));
             approxTimeTextView = itemView.findViewById((R.id.approxTimeTextView));
             approxSavingsTextView = itemView.findViewById((R.id.approxSavingsTextView));
