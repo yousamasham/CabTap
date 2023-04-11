@@ -35,16 +35,14 @@ public class PresentOfferPage extends Fragment {
         String username = args.getString("username");
         TripInformation ride = controller.CheckOffersToMe(username);
         //setting each field to display certain info
-        pickup.setText(ride.pickupLocation);
-        dropOff.setText(ride.destination);
-        approxTime.setText(String.vaueOf(ride.rideTime));
-        approxSavings.setText(String.vaueOf(ride.rideFare));
+        populateFields();
 
         accept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 controller.ChangeOfferAcceptanceState(username, true);
                 TripInformation ride = controller.CheckOffersToMe(username);
+                populateFields();
             }
         });
         reject.setOnClickListener(new View.OnClickListener() {
@@ -54,6 +52,13 @@ public class PresentOfferPage extends Fragment {
                 TripInformation ride = controller.CheckOffersToMe(username);
             }
         });
+    }
+
+    private void populateFields(){
+        pickup.setText(ride.pickupLocation);
+        dropOff.setText(ride.destination);
+        approxTime.setText(String.vaueOf(ride.rideTime));
+        approxSavings.setText(String.vaueOf(ride.rideFare));
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
