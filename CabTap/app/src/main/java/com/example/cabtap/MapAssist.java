@@ -39,6 +39,7 @@ public class MapAssist {
 
     public MapAssist(Context context) {
         this.context = context;
+        geocoder = new Geocoder(this.context.getApplicationContext());
     }
 
     // See above methods for short descriptions, some are commented, some aren't.
@@ -307,5 +308,9 @@ public class MapAssist {
             Log.e("MapAssist", "Error getting driving time", e);
         }
         return null;
+    }
+
+    protected String llString(LatLng ll) {
+        return ll.latitude + "," + ll.longitude;
     }
 }

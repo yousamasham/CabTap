@@ -27,10 +27,10 @@
 
     <!-- Button -->
     <Button
-        android:id="@+id/plotRouteButton"
+        android:id="@+id/gameButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Plot Route"
+        android:text="Play a Game!"
         android:layout_alignParentRight="true"
         android:layout_marginRight="20dp"
         android:layout_marginTop="20dp"
