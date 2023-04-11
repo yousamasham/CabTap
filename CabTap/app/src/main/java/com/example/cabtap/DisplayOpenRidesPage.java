@@ -19,6 +19,14 @@ public class DisplayOpenRidesPage extends AppCompatActivity {
     SwipeRefreshLayout swipeRefreshLayout;
     DispatcherController controller = new DispatcherController();
 
+    public static DisplayOpenRidesPage newInstance(SessionDetails profile) {
+        ProfilePage fragment = new ProfilePage();
+        Bundle args = new Bundle();
+        args.putString("username", profile.getSessionUsername());
+        fragment.setArguments(args);
+        return fragment;
+    } 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,12 +65,21 @@ public class DisplayOpenRidesPage extends AppCompatActivity {
         @Override
         public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
             int position = viewHolder.getAdapterPosition();
+            String username = args.getString("username");
             switch (direction) {
                 //request this ride = swipe left
                 case ItemTouchHelper.LEFT:
-                    Intent intent = new Intent(getActivity(), waitForAccept.class);
-                    //Dispatcher.pairRiders(ride, username);
-                    //Waiting for accept
+                    Intent intent = new Intent(getActivity(), waitforaccept.class);
+                    startActivity(intent);
+                    //need to get the TripInformation from the ride they swiped on
+                    if(controller.pairRiders(username, ride)){
+                        Intent intentTransit = new Intent(getActivity(), intransit.class);
+                        startActivity(intentTransit);
+                    }
+                    else{
+                        Intent intentRides = new Intent(getActivity(), displayopenrides.class);
+                        startActivity(intentRides);
+                    }
                     break;
                 //reject = swipe right
                 case ItemTouchHelper.RIGHT:

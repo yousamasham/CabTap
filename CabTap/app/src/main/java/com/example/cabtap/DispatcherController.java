@@ -26,17 +26,19 @@ public class DispatcherController {
         TripDatabase.InsertRequest(ride);
     }
 
-    protected void pairRiders(TripInformation ride, String username){
+    
+    protected bool pairRiders(TripInformation ride, String username){
         TripInformation tripRequested = TripDatabase.GetRequest(username);
         TripDatabase.pushOffer(ride.getUsername(), tripRequested);
         while(TripDatabase.checkOffer()==null)
         if(TripDatabase.checkOffer()){
-            //switch waiting to accept to inTransit page
             TripDatabase.RemoveRequest(username);
+            return true;
         }
         else{
-            //switch waiting to accept to display open rides page
+            return false;
         }
+        TripDatabase.RemoveOffer(username);
     }
 
     protected ArrayList<TripInformation> getRides(){

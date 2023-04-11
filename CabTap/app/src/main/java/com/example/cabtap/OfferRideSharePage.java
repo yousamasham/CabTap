@@ -67,8 +67,8 @@ public class OfferRideSharePage extends Fragment {
 
     
 }
-// public class ValidTripException extends Exception{
-//     public ValidTripException(String message){
-//         super(message);
-//     }
-// }
+public class ValidTripException extends Exception{
+     public ValidTripException(String message){
+         super(message);
+    }
+}

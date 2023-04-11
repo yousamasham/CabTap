@@ -8,7 +8,6 @@ import android.widget.Button;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class PresentOfferPage extends Fragment {
 
     Button accept;
@@ -28,20 +27,19 @@ public class PresentOfferPage extends Fragment {
         accept = (Button) getView().findViewById(R.id.btn_accept);
         reject = (Button) getView().findViewById(R.id.btn_reject);
         String username = args.getString("username");
+        TripInformation ride = controller.CheckOffersToMe(username);
 
         accept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DispatcherController controller = new DispatcherController();
+                controller.ChangeOfferAcceptanceState(username, true);
                 TripInformation ride = controller.CheckOffersToMe(username);
-
-                Intent intent = new Intent(getActivity(), InTransitPage.class);
-                startActivity(intent);
             }
         });
         reject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                controller.ChangeOfferAcceptanceState(username, false);
                 TripInformation ride = controller.CheckOffersToMe(username);
             }
         });
