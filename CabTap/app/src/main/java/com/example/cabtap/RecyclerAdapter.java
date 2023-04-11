@@ -12,10 +12,10 @@ import java.util.List;
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder>{
 
     private static final String TAG = "RecyclerAdapter";
-    ArrayList<TripInformation> openRides; // get list of available requests from dispatcher and store in list
+    List<List<String>> requestedRides; // get list of available requests from dispatcher and store in list
 
-    public RecyclerAdapter(ArrayList<TripInformation> openRides){
-        this.openRides = openRides;
+    public RecyclerAdapter(List<List<String>> requestedRides){
+        this.requestedRides = requestedRides;
     }
 
     @NonNull
@@ -30,14 +30,15 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     // map data inside each item
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.dropOffTextView.setText(openRides.get(position).destination); //dispatcher offers list[1] (will be the dropoff locations)
-        holder.approxTimeTextView.setText(openRides.get(position).rideTime); //dispatcher offers list[2] (will be the approx time)
-        holder.approxSavingsTextView.setText(openRides.get(position).rideFare); //dispatcher offers list[3] (will be the approx savings)
+        //holder.pickupTextView.setText(requestedRides.get(position.get(0))); //dispatcher offers list[0] (will be the pickup locations)
+        //holder.dropOffTextView.setText(requestedRides.get(position.get(0)); //dispatcher offers list[1] (will be the dropoff locations)
+        //holder.approxTimeTextView.setText(requestedRides.get(position.get(0)); //dispatcher offers list[2] (will be the approx time)
+        //holder.approxSavingsTextView.setText(requestedRides.get(position.get(0)); //dispatcher offers list[3] (will be the approx savings)
     }
 
     @Override
     public int getItemCount() {
-        return openRides.size();
+        return requestedRides.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder { //implements View.OnClickListener
@@ -56,6 +57,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             //itemView.setOnClickListener(this);
         }
 
+        //@Override
+        //public void onClick(View view) {
+        //    Toast.makeText(view.getContext(getAdapterPosition()), requestedRides.get(), Toast)
+        //}
     }
 
 }
