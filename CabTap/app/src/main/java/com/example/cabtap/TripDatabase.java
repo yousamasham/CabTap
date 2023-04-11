@@ -10,7 +10,6 @@ import java.util.Map;
 
 public class TripDatabase {
     private static FirebaseFirestore firestore;
-    private static int rideCounter;
 
     TripDatabase() throws Exception{
         try{
@@ -69,8 +68,6 @@ public class TripDatabase {
         catch (Exception E){
             throw E;
         }
-
-        rideCounter++;
 
         return true;
     }

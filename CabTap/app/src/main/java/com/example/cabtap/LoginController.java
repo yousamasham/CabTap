@@ -34,6 +34,7 @@ public class LoginController {
                 password.setError("Username and password do not match!");
                 throw new Exception("Exception message");
             }
+            profileDB.SignalLogin(userDetails.get(ProfileField.USERNAME.ordinal()));
             return userDetails;
         }
         catch(Exception E){
