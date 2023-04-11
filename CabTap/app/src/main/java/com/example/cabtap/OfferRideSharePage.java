@@ -24,7 +24,7 @@ public class OfferRideSharePage extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState ){
         dropOff = (EditText) getView().findViewById(R.id.et_dropOff);
         availableSeats = (EditText) getView().findViewById(R.id.et_availableSeats);
-        submit = (Button) getView().findViewById(R.id.btn_submit);
+        submit = (Button) getView().findViewById(R.id.btn_accept);
 
         submit.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -13,7 +13,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/tv_logo"
+            android:id="@+id/offerTitle"
             android:layout_width="367dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="25dp"
@@ -91,7 +91,7 @@
             android:textSize="15sp" />
 
         <Button
-            android:id="@+id/btn_submit"
+            android:id="@+id/btn_accept"
             android:layout_width="370dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"

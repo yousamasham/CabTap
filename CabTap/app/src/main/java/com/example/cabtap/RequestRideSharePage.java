@@ -35,7 +35,7 @@ public class RequestRideSharePage extends Fragment{
         date = (EditText) getView().findViewById(R.id.et_date);
         time = (EditText) getView().findViewById(R.id.et_time);
         passengerNum = (EditText) getView().findViewById(R.id.et_passengerNum);
-        submit = (Button) getView().findViewById(R.id.btn_submit);
+        submit = (Button) getView().findViewById(R.id.btn_accept);
 
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
