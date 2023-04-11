@@ -17,19 +17,34 @@ public class RequestRideSharePage extends Fragment{
     EditText time;
     EditText passengerNum;
     Button submit;
+    DispatcherController controller = new DispatcherController();
 
     private void validateTripInfo(){
-        if(isNull(dropOff) || isNull(pickUp) || isNull(date) || isNull(time) || isNull(passengerNum)){
-            //display error message to fill all fields
+        try{
+            if(isNull(dropOff) || isNull(pickUp) || isNull(date) || isNull(time) || isNull(passengerNum)){
+                throw new ValidTripException("Please fill all fields."); 
+            }
+            if(dropOff == pickUp){
+                throw new ValidTripException("Invalid pickup and/or dropoff locations entered.");
+            }
         }
-        if(dropOff == pickUp){
-            //add out of range checks
-            //display message that ride is invalid
+        catch(Exception E){
+
         }
+    }
+
+    public static RequestRideSharePage newInstance(SessionDetails profile) {
+        ProfilePage fragment = new ProfilePage();
+        Bundle args = new Bundle();
+        args.putString("username", profile.getSessionUsername());
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState){
+        Bundle args = getArguments();
+        String username = args.getString("username");
         dropOff = (EditText) getView().findViewById(R.id.et_dropOff);
         pickUp = (EditText) getView().findViewById(R.id.et_pickup);
         date = (EditText) getView().findViewById(R.id.et_date);
@@ -41,15 +56,22 @@ public class RequestRideSharePage extends Fragment{
             @Override
             public void onClick(View view) {
                 validateTripInfo();
+                TripInformation trip = new TripInformation();
+                trip.setPickupLocation(pickUp);
+                trip.setDestination(dropOff);
+                trip.setRideTime(time);
+                trip.setDate(date);
+                trip.setCapacity(passengerNum);
+                trip.setUsername(username);
+                controller.recieveRideRequest(trip);
                 sendInfo();
-                //send info to Dispatch controller
-                //bring user to new page
             }
         });
     }
 
     private void sendInfo(){
         Intent intent = new Intent(getActivity(), DisplayOpenRidesPage.class);
+        intent.putString("");
         startActivity(intent);
     }
     
@@ -59,4 +81,10 @@ public class RequestRideSharePage extends Fragment{
         return inflater.inflate(R.layout.fragment_requestsharepage, container, false);
     }
 
+
+}
+public class ValidTripException extends Exception{
+    public ValidTripException(String message){
+        super(message);
+    }
 }

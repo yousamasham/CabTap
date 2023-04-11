@@ -19,6 +19,7 @@ public class OfferRideSharePage extends Fragment {
     Button submit;
     private LocalTime approxTime;
     private int approxSaving;
+    DispatcherController controller = new DispatcherController();
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState ){
@@ -30,10 +31,21 @@ public class OfferRideSharePage extends Fragment {
             @Override
             public void onClick(View view) {
                 // get current location of rider
-                // validate that dropOff != current location otherwise show an error
+                /*if(dropOff == currentLocation){//add out of range checks to if
+                    throw new ValidTripException("Invalid pickup and/or dropoff locations entered.");
+                }*/
                 // calculate the approx route to show to requesters
-                // send info to dispatcher controller
-                //displayConfirmation();
+                
+                TripInformation trip = new TripInformation();
+                //trip.setPickupLocation(currentLocation);
+                trip.setDestination(dropOff);
+                trip.setRideTime(Time.now());
+                trip.setDate(Date.now());
+                trip.setCapacity(availableSeats);
+                controller.setRideOffer(trip);
+
+                //Intent intent = new Intent(getActivity(), PresentOfferPage.class);
+                //startActivity(intent);
 
                 // THIS IS TESTER CODE FOR MAPS ~Cieran
                 String drop = dropOff.getText().toString().trim();
@@ -53,17 +65,10 @@ public class OfferRideSharePage extends Fragment {
         return (ViewGroup) inflater.inflate(R.layout.fragment_offersharepage, container, false);
         }
 
-    // opens present offer page with a confirmation.
-    private void displayConfirmation(){
-        Intent intent = new Intent(getActivity(), PresentOfferPage.class);
-        startActivity(intent);
-    }
     
-    private ArrayList<Object> displayRouteDetails(){
-        ArrayList<Object> routeDetails = new ArrayList<Object>();
-        routeDetails.add(availableSeats);
-        routeDetails.add(approxTime);
-        routeDetails.add(approxSaving);
-        return routeDetails;
+}
+public class ValidTripException extends Exception{
+     public ValidTripException(String message){
+         super(message);
     }
 }

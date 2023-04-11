@@ -1,35 +1,49 @@
 package com.example.cabtap;
 import java.util.ArrayList;
 
+import javax.imageio.plugins.tiff.TIFFImageReadParam;
+import javax.swing.event.TreeWillExpandListener;
+
 public class DispatcherController {
 
-    ArrayList<TripInformation> rideRequests = new ArrayList<TripInformation>();
-
-    // user submits requests a ride
-    private void setRideRequests(String arrivalTime, String dropOff, String pickup){
-        // gets requests from request Ride share Page
+    //Ride in progress has been offered to share
+    private void setRideOffer(TripInformation ride){
+        TripDatabase.InsertTrip(ride);
+        sendRideShareOffer(ride);
     }
 
     private void removeRequestRide(TripInformation ride){
-        rideRequests.remove(ride);
-        // either 
+        TripDatabase.RemoveRequest(ride);
     }
 
+    //Adding an added trip to the open rides for requesters
     private void sendRideShareOffer(TripInformation ride){
-        // sends offer to DisplayOpenRidesPage
+        DisplayOpenRidesPage.updateRides(ride);
     }
 
-    protected void recieveRideShareOffer(){
-        // gets from offerRideSharePage
+    //Database recieves ride request
+    protected void recieveRideRequest(TripInformation ride){
+        TripDatabase.InsertRequest(ride);
     }
 
-    protected void pairRiders(){
-        // calls getRides(), recieveRideShareOffer(), and the answer of the offerer
+    
+    protected bool pairRiders(TripInformation ride, String username){
+        TripInformation tripRequested = TripDatabase.GetRequest(username);
+        TripDatabase.pushOffer(ride.getUsername(), tripRequested);
+        while(TripDatabase.checkOffer()==null)
+        if(TripDatabase.checkOffer()){
+            TripDatabase.RemoveRequest(username);
+            return true;
+        }
+        else{
+            return false;
+        }
+        TripDatabase.RemoveOffer(username);
     }
 
     protected ArrayList<TripInformation> getRides(){
         ArrayList<TripInformation> rideOffers = new ArrayList<TripInformation>();
-        //search available rides and add rides that are applicable
+        rideOffers = TripDatabase.AvailableTrips();
         return rideOffers;
 
     }
