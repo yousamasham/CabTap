@@ -13,18 +13,27 @@ public class PresentOfferPage extends Fragment {
 
     Button accept;
     Button reject;
+    DispatcherController controller = new DispatcherController();
     
+    public static PresentOfferPage newInstance(SessionDetails profile) {
+        ProfilePage fragment = new ProfilePage();
+        Bundle args = new Bundle();
+        args.putString("username", profile.getSessionUsername());
+        fragment.setArguments(args);
+        return fragment;
+    }    
+
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState ){
         accept = (Button) getView().findViewById(R.id.btn_accept);
         reject = (Button) getView().findViewById(R.id.btn_reject);
+        String username = args.getString("username");
 
         accept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 DispatcherController controller = new DispatcherController();
-                ArrayList<TripInformation> rides = new ArrayList<TripInformation>();
-                // rides = controller.getRides();
+                TripInformation ride = controller.CheckOffersToMe(username);
 
                 Intent intent = new Intent(getActivity(), InTransitPage.class);
                 startActivity(intent);
@@ -33,7 +42,7 @@ public class PresentOfferPage extends Fragment {
         reject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //rides = controller.getRides();
+                TripInformation ride = controller.CheckOffersToMe(username);
             }
         });
     }

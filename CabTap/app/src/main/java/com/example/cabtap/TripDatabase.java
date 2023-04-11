@@ -46,11 +46,13 @@ public class TripDatabase {
 
     protected static TripInformation GetRequest(String name){
         try{
-            firestore.collection("requests").whereEqualTo("username", username).get();
+            task query =firestore.collection("requests").whereEqualTo("username", username).get();
+            while (!queryTask.isComplete());
         }
         catch (Exception E){
             throw E;
         }
+        return query;
     }
 
     protected static boolean InsertTrip(TripInformation trip){
@@ -74,6 +76,7 @@ public class TripDatabase {
     }
 
     protected static TripInformation FindTrips(String username){
+        TripInformation trip;
         try{
             Task queryTask = firestore.collection("trips").whereEqualTo("username", username).get();
 
@@ -82,7 +85,7 @@ public class TripDatabase {
             QuerySnapshot queryRes = (QuerySnapshot) queryTask.getResult();
 
             for (QueryDocumentSnapshot docRes : queryRes){
-                TripInformation trip = docRes.toObject(TripInformation.class);
+                trip = docRes.toObject(TripInformation.class);
             }
         }
         catch (Exception E){
@@ -105,6 +108,7 @@ public class TripDatabase {
         ArrayList<TripInformation> result = new ArrayList<TripInformation>();
         try{
             task query = firestore.collection("trips").document().get();
+            while (!query.isComplete());
             for(QueryDocumentSnapshot docRes : query){ 
                 TripInformation trip = docRes.toObject(TripInformation.class);
                 result.add(trip);
@@ -119,13 +123,49 @@ public class TripDatabase {
         Map<String, Object> newOffer = new HashMap<>();
         newOffer.put("username", checkingUsername);
         newOffer.put("request", request);
+        newOffer.put("acceptence",null);
         try{
-            firestore.collection("offers").document().set(newOffer);
+            firestore.collection("offers").document(checkingUsername).set(newOffer);
         }
         catch (Exception E){
             throw E;
         }
     }
 
-    prot
+    protected static String CheckOffer(TripInformation request){
+        task query = firestore.collection("offers").whereEqualTo("request", request).get();
+        while (!query.isComplete());
+        QuerySnapshot queryRes = (QuerySnapshot) query.getResult();
+        String acceptanceState = queryRes.toObject("acceptance");
+        return acceptanceState;
+    }
+
+    protected static TripInformation CheckOffersToMe(String username){
+        task query = firestore.collection("offers").whereEqualTo("username", username).get();
+        while (!query.isComplete());
+        TripInformation trip = query.toObject(TripInformation.class);
+        return trip;
+    }
+
+    protected static void RemoveOffer(String username){ 
+        try{
+        task query = firestore.collection("offers").whereEqualTo("username", username).remove();
+        while (!query.isComplete());
+        }
+        catch(Exception E){
+            throw E;
+        }
+    }
+
+    protected static void ChangeOfferAcceptanceState(String username, bool state){ 
+        try{
+        task query = firestore.collection("offers").whereEqualTo("username", username).get();
+        while (!query.isComplete());
+        task change = firestore.collection("offers").document(username).setArguments("acceptance",state);
+        while (!change.isComplete());
+        }
+        catch(Exception E){
+            throw E;
+        }
+    }
 }

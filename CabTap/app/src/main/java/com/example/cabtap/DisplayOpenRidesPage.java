@@ -17,6 +17,7 @@ public class DisplayOpenRidesPage extends AppCompatActivity {
     RecyclerAdapter recyclerAdapter;
     ArrayList<TripInformation> openRides;
     SwipeRefreshLayout swipeRefreshLayout;
+    DispatcherController controller = new DispatcherController();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
