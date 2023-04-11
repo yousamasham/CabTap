@@ -71,7 +71,8 @@ public class DisplayOpenRidesPage extends AppCompatActivity {
                 case ItemTouchHelper.LEFT:
                     Intent intent = new Intent(getActivity(), waitforaccept.class);
                     startActivity(intent);
-                    if(controller.pairRiders(username, openRides.get(position))){
+                    //need to get the TripInformation from the ride they swiped on
+                    if(controller.pairRiders(username, ride)){
                         Intent intentTransit = new Intent(getActivity(), intransit.class);
                         startActivity(intentTransit);
                     }
