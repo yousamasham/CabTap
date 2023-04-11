@@ -45,17 +45,18 @@ public class LoggedInMainActivity extends AppCompatActivity {
 
 
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
+            Fragment fragment;
             switch (item.getItemId()){
                 case R.id.ride:
-                    Fragment fragment = RequestRideSharePage.newInstance(sessionDetails);
+                    fragment = RequestRideSharePage.newInstance(sessionDetails);
                     replaceFragment(fragment);
                     break;
                 case R.id.offer:
                     replaceFragment(new OfferRideSharePage());
                     break;
                 case R.id.profile:
-                        Fragment fragment = ProfilePage.newInstance(sessionDetails);
-                        replaceFragment(fragment);
+                    fragment = ProfilePage.newInstance(sessionDetails);
+                    replaceFragment(fragment);
                     break;
             }
             return true;

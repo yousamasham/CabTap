@@ -1,6 +1,7 @@
 package com.example.cabtap;
 
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -26,7 +27,7 @@ public class TripDatabase {
         newTrip.put("pickupLocation", trip.getPickupLocation());
         newTrip.put("username", trip.getUsersEncountered());
         try{
-            firestore.collection("requests").document.set(newTrip);
+            firestore.collection("requests").document(trip.getUsername()).set(newTrip);
         }
         catch(Exception E){
             throw E;
@@ -34,24 +35,30 @@ public class TripDatabase {
         return true;
     }
 
-    protected static void RemoveRequest(String name){
+    protected static void RemoveRequest(String username){
         try{
-            firestore.collection("requests").whereEqualTo("username", username).remove();
+            firestore.collection("requests").document(username).delete();
         }
         catch (Exception E){
             throw E;
         }
     }
 
-    protected static TripInformation GetRequest(String name){
+    protected static TripInformation GetRequest(String username){
+        TripInformation request = null;
         try{
-            task query =firestore.collection("requests").whereEqualTo("username", username).get();
-            while (!queryTask.isComplete());
+            Task query =firestore.collection("requests").whereEqualTo("username", username).get();
+            while (!query.isComplete());
+            QuerySnapshot queryRes = (QuerySnapshot) query.getResult();
+
+            for (QueryDocumentSnapshot docRes : queryRes){
+                request = docRes.toObject(TripInformation.class);
+            }
         }
         catch (Exception E){
             throw E;
         }
-        return query;
+        return request;
     }
 
     protected static boolean InsertTrip(TripInformation trip){
@@ -63,7 +70,7 @@ public class TripDatabase {
         newTrip.put("usersencountered", trip.getUsersEncountered());
 
         try{
-            firestore.collection("trips").document().set(newTrip);
+            firestore.collection("trips").document(trip.getUsername()).set(newTrip);
         }
         catch (Exception E){
             throw E;
@@ -73,7 +80,7 @@ public class TripDatabase {
     }
 
     protected static TripInformation FindTrips(String username){
-        TripInformation trip;
+        TripInformation trip = null;
         try{
             Task queryTask = firestore.collection("trips").whereEqualTo("username", username).get();
 
@@ -94,7 +101,7 @@ public class TripDatabase {
 
     protected static void RemoveTrips(TripInformation trip){
         try{
-            firestore.collection("trips").document().remove(trip);
+            firestore.collection("trips").document(trip.getUsername()).delete();
         }
         catch (Exception E){
             throw E;
@@ -104,9 +111,10 @@ public class TripDatabase {
     protected static ArrayList<TripInformation> AvailableTrips(){
         ArrayList<TripInformation> result = new ArrayList<TripInformation>();
         try{
-            task query = firestore.collection("trips").document().get();
+            Task query = firestore.collection("trips").document().get();
             while (!query.isComplete());
-            for(QueryDocumentSnapshot docRes : query){ 
+            QuerySnapshot queryRes = (QuerySnapshot) query.getResult();
+            for(QueryDocumentSnapshot docRes : queryRes){
                 TripInformation trip = docRes.toObject(TripInformation.class);
                 result.add(trip);
             }
@@ -130,35 +138,28 @@ public class TripDatabase {
     }
 
     protected static String CheckOffer(TripInformation request){
-        task query = firestore.collection("offers").whereEqualTo("request", request).get();
+        Task query = firestore.collection("offers").whereEqualTo("request", request).get();
         while (!query.isComplete());
-        QuerySnapshot queryRes = (QuerySnapshot) query.getResult();
-        String acceptanceState = queryRes.toObject("acceptance");
+        DocumentSnapshot queryRes = (DocumentSnapshot) query.getResult();
+        String acceptanceState = (String) queryRes.getData().get("acceptance");
         return acceptanceState;
     }
 
     protected static TripInformation CheckOffersToMe(String username){
-        task query = firestore.collection("offers").whereEqualTo("username", username).get();
+        Task query = firestore.collection("offers").whereEqualTo("username", username).get();
         while (!query.isComplete());
-        TripInformation trip = query.toObject(TripInformation.class);
+        DocumentSnapshot queryRes = (DocumentSnapshot) query.getResult();
+        TripInformation trip = queryRes.toObject(TripInformation.class);
         return trip;
     }
 
-    protected static void RemoveOffer(String username){ 
-        try{
-        task query = firestore.collection("offers").whereEqualTo("username", username).remove();
-        while (!query.isComplete());
-        }
-        catch(Exception E){
-            throw E;
-        }
+    protected static void RemoveOffer(String username){
+        firestore.collection("offers").document(username).delete();
     }
 
-    protected static void ChangeOfferAcceptanceState(String username, bool state){ 
+    protected static void ChangeOfferAcceptanceState(String username, boolean state){
         try{
-        task query = firestore.collection("offers").whereEqualTo("username", username).get();
-        while (!query.isComplete());
-        task change = firestore.collection("offers").document(username).setArguments("acceptance",state);
+        Task change = firestore.collection("offers").document(username).update("acceptance",state);
         while (!change.isComplete());
         }
         catch(Exception E){

@@ -3,7 +3,12 @@ package com.example.cabtap;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +21,7 @@ public class PresentOfferPage extends Fragment {
     DispatcherController controller = new DispatcherController();
     
     public static PresentOfferPage newInstance(SessionDetails profile) {
-        ProfilePage fragment = new ProfilePage();
+        PresentOfferPage fragment = new PresentOfferPage();
         Bundle args = new Bundle();
         args.putString("username", profile.getSessionUsername());
         fragment.setArguments(args);
@@ -25,40 +30,47 @@ public class PresentOfferPage extends Fragment {
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState ){
+        Bundle args = getArguments();
         accept = (Button) getView().findViewById(R.id.btn_accept);
         reject = (Button) getView().findViewById(R.id.btn_reject);
         pickup = (TextView) getView().findViewById(R.id.pickupText_View);
-        dropOff = (TextView) findViewById(R.id.dropOffText_View);
-        approxTime = (TextView) findViewById(R.id.rideTimeText_View);
-        approxSavings = (TextView) findViewById(R.id.savingsText_View);
-
+        dropOff = (TextView) getView().findViewById(R.id.dropOffText_View);
+        approxTime = (TextView) getView().findViewById(R.id.rideTimeText_View);
+        approxSavings = (TextView) getView().findViewById(R.id.savingsText_View);
         String username = args.getString("username");
-        TripInformation ride = controller.CheckOffersToMe(username);
+        TripDatabase tripDB = null;
+        try {
+            tripDB = new TripDatabase();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        TripInformation ride = tripDB.CheckOffersToMe(username);
         //setting each field to display certain info
-        populateFields();
+        populateFields(ride);
 
+        TripDatabase finalTripDB = tripDB;
         accept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                controller.ChangeOfferAcceptanceState(username, true);
-                TripInformation ride = controller.CheckOffersToMe(username);
-                populateFields();
+                finalTripDB.ChangeOfferAcceptanceState(username, true);
+                TripInformation ride = finalTripDB.CheckOffersToMe(username);
+                populateFields(ride);
             }
         });
         reject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                controller.ChangeOfferAcceptanceState(username, false);
-                TripInformation ride = controller.CheckOffersToMe(username);
+                finalTripDB.ChangeOfferAcceptanceState(username, false);
+                TripInformation ride = finalTripDB.CheckOffersToMe(username);
             }
         });
     }
 
-    private void populateFields(){
+    private void populateFields(TripInformation ride){
         pickup.setText(ride.pickupLocation);
         dropOff.setText(ride.destination);
-        approxTime.setText(String.vaueOf(ride.rideTime));
-        approxSavings.setText(String.vaueOf(ride.rideFare));
+        approxTime.setText(ride.rideTime.toString());
+        approxSavings.setText(Float.toString(ride.rideFare));
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

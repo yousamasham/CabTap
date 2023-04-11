@@ -4,13 +4,18 @@ import static java.util.Objects.isNull;
 import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 
-public class RequestRideSharePage extends Fragment{
+import java.sql.Date;
+import java.time.LocalDate;
+import java.time.LocalTime;
+
+public class RequestRideSharePage extends Fragment {
     EditText dropOff;
     EditText pickUp;
     EditText date;
@@ -19,22 +24,21 @@ public class RequestRideSharePage extends Fragment{
     Button submit;
     DispatcherController controller = new DispatcherController();
 
-    private void validateTripInfo(){
-        try{
-            if(isNull(dropOff) || isNull(pickUp) || isNull(date) || isNull(time) || isNull(passengerNum)){
-                throw new ValidTripException("Please fill all fields."); 
+    private void validateTripInfo() {
+        try {
+            if (isNull(dropOff) || isNull(pickUp) || isNull(date) || isNull(time) || isNull(passengerNum)) {
+                throw new ValidTripException("Please fill all fields.");
             }
-            if(dropOff == pickUp){
+            if (dropOff == pickUp) {
                 throw new ValidTripException("Invalid pickup and/or dropoff locations entered.");
             }
-        }
-        catch(Exception E){
+        } catch (Exception E) {
 
         }
     }
 
     public static RequestRideSharePage newInstance(SessionDetails profile) {
-        ProfilePage fragment = new ProfilePage();
+        RequestRideSharePage fragment = new RequestRideSharePage();
         Bundle args = new Bundle();
         args.putString("username", profile.getSessionUsername());
         fragment.setArguments(args);
@@ -42,7 +46,7 @@ public class RequestRideSharePage extends Fragment{
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState){
+    public void onViewCreated(View view, Bundle savedInstanceState) {
         Bundle args = getArguments();
         String username = args.getString("username");
         dropOff = (EditText) getView().findViewById(R.id.et_dropOff);
@@ -56,25 +60,22 @@ public class RequestRideSharePage extends Fragment{
             @Override
             public void onClick(View view) {
                 validateTripInfo();
-                TripInformation trip = new TripInformation();
-                trip.setPickupLocation(pickUp);
-                trip.setDestination(dropOff);
-                trip.setRideTime(time);
-                trip.setDate(date);
-                trip.setCapacity(passengerNum);
-                trip.setUsername(username);
+                TripInformation trip = new TripInformation(pickUp.getText().toString(), dropOff.getText().toString(), username, Integer.valueOf(passengerNum.getText().toString()));
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    trip.setRideTime(LocalTime.parse(time.getText().toString()));
+                }
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    trip.setDate(LocalDate.parse(date.getText().toString()));
+                }
                 controller.recieveRideRequest(trip);
-                sendInfo();
+
+                Intent intent = new Intent(getActivity(), DisplayOpenRidesPage.class);
+                intent.putExtra("username", username);
+                startActivity(intent);
             }
         });
     }
 
-    private void sendInfo(){
-        Intent intent = new Intent(getActivity(), displayopenrides.class);
-        intent.putString("");
-        startActivity(intent);
-    }
-    
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -82,9 +83,9 @@ public class RequestRideSharePage extends Fragment{
     }
 
 
-}
-public class ValidTripException extends Exception{
-    public ValidTripException(String message){
-        super(message);
+    public class ValidTripException extends Exception {
+        public ValidTripException(String message) {
+            super(message);
+        }
     }
 }

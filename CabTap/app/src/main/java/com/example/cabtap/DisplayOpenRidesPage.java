@@ -1,36 +1,32 @@
 package com.example.cabtap;
 
+import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import java.util.List;
+import java.util.ArrayList;
 
 
 public class DisplayOpenRidesPage extends AppCompatActivity {
     RecyclerView recyclerView;
     RecyclerAdapter recyclerAdapter;
-    ArrayList<TripInformation> openRides;
+    static ArrayList<TripInformation> openRides;
     SwipeRefreshLayout swipeRefreshLayout;
     DispatcherController controller = new DispatcherController();
-
-    public static DisplayOpenRidesPage newInstance(SessionDetails profile) {
-        ProfilePage fragment = new ProfilePage();
-        Bundle args = new Bundle();
-        args.putString("username", profile.getSessionUsername());
-        fragment.setArguments(args);
-        return fragment;
-    } 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_displayopenrides);
+        setContentView(R.layout.activity_displayopenrides);
         recyclerView = findViewById(R.id.recyclerView);
         recyclerAdapter = new RecyclerAdapter(openRides);
 
@@ -52,7 +48,7 @@ public class DisplayOpenRidesPage extends AppCompatActivity {
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
         itemTouchHelper.attachToRecyclerView(recyclerView);
     }
-    public void updateRides(TripInformation trip){
+    public static void updateRides(TripInformation trip){
         openRides.add(trip);
     }
 
@@ -65,18 +61,20 @@ public class DisplayOpenRidesPage extends AppCompatActivity {
         @Override
         public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
             int position = viewHolder.getAdapterPosition();
-            String username = args.getString("username");
+            String username = getIntent().getStringExtra("username");
             switch (direction) {
                 //request this ride = swipe left
                 case ItemTouchHelper.LEFT:
-                    Intent intent = new Intent(getActivity(), waitforaccept.class);
-                    startActivity(intent);
-                    if(controller.pairRiders(username, openRides.get(position))){
-                        Intent intentTransit = new Intent(getActivity(), intransit.class);
+
+                    Fragment fragment = WaitForAccept.newInstance();
+                    replaceFragment(fragment);
+
+                    if(controller.pairRiders(openRides.get(position), username)){
+                        Intent intentTransit = new Intent(getActivity(), InTransitPage.class);
                         startActivity(intentTransit);
                     }
                     else{
-                        Intent intentRides = new Intent(getActivity(), displayopenrides.class);
+                        Intent intentRides = new Intent(getActivity(), DisplayOpenRidesPage.class);
                         startActivity(intentRides);
                     }
                     break;
@@ -88,4 +86,11 @@ public class DisplayOpenRidesPage extends AppCompatActivity {
             }
         }
     };
+
+    private void replaceFragment(Fragment fragment) {
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.frame_layout, fragment);
+        fragmentTransaction.commit();
+    }
 }
