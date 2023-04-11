@@ -70,7 +70,7 @@ public class RequestRideSharePage extends Fragment{
     }
 
     private void sendInfo(){
-        Intent intent = new Intent(getActivity(), DisplayOpenRidesPage.class);
+        Intent intent = new Intent(getActivity(), displayopenrides.class);
         intent.putString("");
         startActivity(intent);
     }

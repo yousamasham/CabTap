@@ -26,7 +26,7 @@ public class DispatcherController {
         TripDatabase.InsertRequest(ride);
     }
 
-    
+    //Sends request to user then informs requestee of the result
     protected bool pairRiders(TripInformation ride, String username){
         TripInformation tripRequested = TripDatabase.GetRequest(username);
         TripDatabase.pushOffer(ride.getUsername(), tripRequested);
@@ -36,7 +36,7 @@ public class DispatcherController {
             return true;
         }
         else{
-            return false;
+            return false; 
         }
         TripDatabase.RemoveOffer(username);
     }
@@ -45,7 +45,6 @@ public class DispatcherController {
         ArrayList<TripInformation> rideOffers = new ArrayList<TripInformation>();
         rideOffers = TripDatabase.AvailableTrips();
         return rideOffers;
-
     }
 
 }

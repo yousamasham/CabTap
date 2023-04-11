@@ -12,6 +12,7 @@ public class PresentOfferPage extends Fragment {
 
     Button accept;
     Button reject;
+    TextView dropOff, approxTime, approxSavings, pickup;
     DispatcherController controller = new DispatcherController();
     
     public static PresentOfferPage newInstance(SessionDetails profile) {
@@ -26,8 +27,18 @@ public class PresentOfferPage extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState ){
         accept = (Button) getView().findViewById(R.id.btn_accept);
         reject = (Button) getView().findViewById(R.id.btn_reject);
+        pickup = (TextView) getView().findViewById(R.id.pickupText_View);
+        dropOff = (TextView) findViewById(R.id.dropOffText_View);
+        approxTime = (TextView) findViewById(R.id.rideTimeText_View);
+        approxSavings = (TextView) findViewById(R.id.savingsText_View);
+
         String username = args.getString("username");
         TripInformation ride = controller.CheckOffersToMe(username);
+        //setting each field to display certain info
+        pickup.setText(ride.pickupLocation);
+        dropOff.setText(ride.destination);
+        approxTime.setText(String.vaueOf(ride.rideTime));
+        approxSavings.setText(String.vaueOf(ride.rideFare));
 
         accept.setOnClickListener(new View.OnClickListener() {
             @Override
