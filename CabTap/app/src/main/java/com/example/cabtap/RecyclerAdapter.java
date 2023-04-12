@@ -13,10 +13,10 @@ import java.util.List;
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder>{
 
     private static final String TAG = "RecyclerAdapter";
-    ArrayList<TripInformation> openRides; // get list of available requests from dispatcher and store in list
+    List<List<String>> requestedRides; // get list of available requests from dispatcher and store in list
 
-    public RecyclerAdapter(ArrayList<TripInformation> openRides){
-        this.openRides = openRides;
+    public RecyclerAdapter(List<List<String>> requestedRides){
+        this.requestedRides = requestedRides;
     }
 
     @NonNull
@@ -37,16 +37,18 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
     @Override
     public int getItemCount() {
-        return openRides.size();
+        return requestedRides.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder { //implements View.OnClickListener
 
+        TextView pickupTextView;
         TextView dropOffTextView;
         TextView approxTimeTextView;
         TextView approxSavingsTextView;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            pickupTextView = itemView.findViewById(R.id.pickupTextView);
             dropOffTextView = itemView.findViewById((R.id.dropOffTextView));
             approxTimeTextView = itemView.findViewById((R.id.approxTimeTextView));
             approxSavingsTextView = itemView.findViewById((R.id.approxSavingsTextView));

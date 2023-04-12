@@ -22,7 +22,6 @@ public class RequestRideSharePage extends Fragment {
     EditText time;
     EditText passengerNum;
     Button submit;
-    DispatcherController controller = new DispatcherController();
 
     private void validateTripInfo() {
         try {
@@ -60,6 +59,7 @@ public class RequestRideSharePage extends Fragment {
             @Override
             public void onClick(View view) {
                 validateTripInfo();
+
                 TripInformation trip = new TripInformation(pickUp.getText().toString(), dropOff.getText().toString(), username, Integer.valueOf(passengerNum.getText().toString()));
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     trip.setRideTime(LocalTime.parse(time.getText().toString()));
@@ -75,13 +75,11 @@ public class RequestRideSharePage extends Fragment {
             }
         });
     }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_requestsharepage, container, false);
     }
-
 
     public class ValidTripException extends Exception {
         public ValidTripException(String message) {

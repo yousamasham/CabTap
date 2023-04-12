@@ -1,5 +1,5 @@
 package com.example.cabtap;
-import java.sql.Date;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -13,6 +13,7 @@ public class TripInformation {
     protected ArrayList<String> usersEncountered;
     protected LocalDate rideDate;
     protected String username;
+
 
     public TripInformation(String pickupLocation, String destination, String username, int desiredCap){
         this.pickupLocation = pickupLocation;
@@ -77,13 +78,5 @@ public class TripInformation {
     // list of riders for the ride will be deleted once the ride is completed.
     protected void finishRide(){
         usersEncountered.clear();;
-    }
-
-    protected void setUsername(String name){
-        username = name;
-    }
-
-    protected String getUsername(){
-        return username;
     }
 }

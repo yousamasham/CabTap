@@ -2,6 +2,12 @@ package com.example.cabtap;
 
 import android.os.Bundle;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -28,6 +34,11 @@ public class PresentOfferPage extends Fragment {
         return fragment;
     }    
 
+public class PresentOfferPage extends AppCompatActivity {
+    RecyclerView recyclerView;
+    RecyclerAdapter recyclerAdapter;
+    List<List<String>> requestedRides; // modify to correct type
+    SwipeRefreshLayout swipeRefreshLayout;
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState ){
         Bundle args = getArguments();
@@ -76,4 +87,5 @@ public class PresentOfferPage extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return (ViewGroup) inflater.inflate(R.layout.fragment_offersharepage, container, false);}
     
+    }
 }

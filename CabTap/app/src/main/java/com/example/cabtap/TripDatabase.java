@@ -66,7 +66,6 @@ public class TripDatabase {
         newTrip.put("destination", trip.getDestination());
         newTrip.put("totalfare", trip.getRideFare());
         newTrip.put("ridetime", trip.getRideTime());
-        newTrip.put("username", trip.getUsername());
         newTrip.put("usersencountered", trip.getUsersEncountered());
 
         try{
@@ -79,10 +78,11 @@ public class TripDatabase {
         return true;
     }
 
-    protected static TripInformation FindTrips(String username){
-        TripInformation trip = null;
+    protected static ArrayList<TripInformation> FindTrips(String destination){
+        ArrayList<TripInformation> result = new ArrayList<TripInformation>();
+
         try{
-            Task queryTask = firestore.collection("trips").whereEqualTo("username", username).get();
+            Task queryTask = firestore.collection("trips").whereEqualTo("destination", destination).get();
 
             while (!queryTask.isComplete());
 
@@ -115,6 +115,7 @@ public class TripDatabase {
             while (!query.isComplete());
             QuerySnapshot queryRes = (QuerySnapshot) query.getResult();
             for(QueryDocumentSnapshot docRes : queryRes){
+
                 TripInformation trip = docRes.toObject(TripInformation.class);
                 result.add(trip);
             }
@@ -122,6 +123,7 @@ public class TripDatabase {
         catch (Exception E){
             throw E;
         }
+
         return result;
     }
     protected static void PushOffer(String checkingUsername, TripInformation request){
