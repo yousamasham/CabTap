@@ -33,19 +33,14 @@ public class DisplayOpenRidesPage extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(recyclerAdapter);
 
-        // now adds lines to seperate each item
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
         recyclerView.addItemDecoration((dividerItemDecoration));
-
-        // get list of available requests from dispatcher and store in the requestedRides list
-
+        
         swipeRefreshLayout = findViewById((R.id.swipeRefreshLayout));
+       
         swipeRefreshLayout.setOnRefreshListener((new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                // get list of open rides and their info from dispatcher again (call dispatcher to
-                // to give info and add it into openRides.
-                // openRides.add(Dispatcher.getRides())
                 recyclerAdapter.notifyDataSetChanged();
                 swipeRefreshLayout.setRefreshing(false);
             }
