@@ -20,8 +20,9 @@ public class LoggedInMainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityLoggedinMainBinding.inflate(getLayoutInflater());
+
         setContentView(binding.getRoot());
-        replaceFragment(new RequestRideSharePage());
+
 
         String username = getIntent().getStringExtra("username");
         String legalName = getIntent().getStringExtra("legalName");
@@ -40,8 +41,8 @@ public class LoggedInMainActivity extends AppCompatActivity {
                 throw new RuntimeException(e);
             }
         }
-
         sessionDetails = new SessionDetails(profile);
+        replaceFragment(new RequestRideSharePage().newInstance(sessionDetails));
 
 
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
@@ -52,7 +53,7 @@ public class LoggedInMainActivity extends AppCompatActivity {
                     replaceFragment(fragment);
                     break;
                 case R.id.offer:
-                    replaceFragment(new OfferRideSharePage());
+                    replaceFragment(new OfferRideSharePage().newInstance(sessionDetails));
                     break;
                 case R.id.profile:
                     fragment = ProfilePage.newInstance(sessionDetails);
