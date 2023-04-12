@@ -17,7 +17,7 @@ import java.time.LocalTime;
 
 public class RequestRideSharePage extends Fragment {
     EditText dropOff;
-    EditText pickUp;
+        EditText pickUp;
     EditText date;
     EditText time;
     EditText passengerNum;
