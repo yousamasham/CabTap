@@ -14,8 +14,7 @@
         android:layout_height="match_parent"
         map:cameraTargetLat="37.7749"
         map:cameraTargetLng="-122.4194"
-        map:cameraZoom="10"
-        tools:layout="@layout/activity_intransit" />
+        map:cameraZoom="10"/>
 
     <!-- Text Output Field -->
     <TextView
