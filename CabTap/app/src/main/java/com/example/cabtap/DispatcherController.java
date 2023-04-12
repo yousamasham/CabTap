@@ -13,14 +13,12 @@ public class DispatcherController {
         TripDatabase.RemoveRequest(ride.getUsername());
     }
 
-    //Adding an added trip to the open rides for requesters
     private void sendRideShareOffer(TripInformation ride){
-        DisplayOpenRidesPage.updateRides(ride);
+        // sends offer to DisplayOpenRidesPage
     }
 
-    //Database recieves ride request
-    protected void recieveRideRequest(TripInformation ride){
-        TripDatabase.InsertRequest(ride);
+    protected void recieveRideShareOffer(){
+        // gets from offerRideSharePage
     }
 
     //Sends request to user then informs requestee of the result
@@ -41,8 +39,9 @@ public class DispatcherController {
 
     protected ArrayList<TripInformation> getRides(){
         ArrayList<TripInformation> rideOffers = new ArrayList<TripInformation>();
-        rideOffers = TripDatabase.AvailableTrips();
+        //search available rides and add rides that are applicable
         return rideOffers;
+
     }
 
 }

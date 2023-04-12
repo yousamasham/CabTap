@@ -7,10 +7,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class GamePage extends AppCompatActivity {
 
+    String username;
     Random random = new Random();
 
     ImageButton btnRock, btnPaper, btnScissors, btnBack;
@@ -41,12 +43,15 @@ public class GamePage extends AppCompatActivity {
         comScore = 0;
         playerScore = 0;
 
+        username = getIntent().getStringExtra("username");
 
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO SEND REWARDS POINTS TO PROFILE
                 rewardPoints = playerScore*5;
+                try {
+                    updateRewards( username, rewardPoints);
+                }catch (Exception E){}
                 finish();
             }
         });
@@ -130,7 +135,22 @@ public class GamePage extends AppCompatActivity {
 
         if(comScore + playerScore >= 5){
             rewardPoints = playerScore*5;
+            try {
+                updateRewards( username, rewardPoints);
+            }catch (Exception E){}
             finish();
+        }
+    }
+
+    public Boolean updateRewards(String username, int amount) throws  Exception{
+        ProfileField fieldToPass = ProfileField.REWARDSBAL;
+        try{
+            ProfileDatabase db = new ProfileDatabase();
+            ArrayList<String> profile = db.RetrieveProfile(username);
+            db.ModifyProfile(username, fieldToPass, profile.get(ProfileField.REWARDSBAL.ordinal()) +amount);
+        }
+        catch (Exception E){
+            throw E;
         }
     }
 
