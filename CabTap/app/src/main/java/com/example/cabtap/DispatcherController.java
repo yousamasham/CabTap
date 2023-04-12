@@ -4,8 +4,15 @@ import java.util.ArrayList;
 public class DispatcherController {
 
     //Ride in progress has been offered to share
-    protected void setRideOffer(TripInformation ride){
-        TripDatabase.InsertTrip(ride);
+    protected void setRideOffer(TripInformation ride) throws Exception {
+
+        try {
+            TripDatabase db = new TripDatabase();
+            db.InsertTrip(ride);
+        }
+        catch(Exception E){
+            throw E;
+        }
         sendRideShareOffer(ride);
     }
 

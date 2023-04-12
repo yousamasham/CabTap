@@ -68,7 +68,13 @@ public class OfferRideSharePage extends Fragment {
                     trip.setDate(LocalDate.now());
                 }
 
-                controller.setRideOffer(trip);
+                trip.setUsername(username);
+
+                try {
+                    controller.setRideOffer(trip);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
                 SessionDetails sessionDetails;
                 try {
                     ProfileDatabase db = new ProfileDatabase();

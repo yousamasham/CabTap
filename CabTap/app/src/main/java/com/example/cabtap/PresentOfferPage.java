@@ -67,6 +67,7 @@ public class PresentOfferPage extends Fragment {
     }
 
     private void populateFields(TripInformation ride){
+        while (ride == null){};
         pickup.setText(ride.pickupLocation);
         dropOff.setText(ride.destination);
         approxTime.setText(ride.rideTime.toString());
@@ -74,6 +75,6 @@ public class PresentOfferPage extends Fragment {
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return (ViewGroup) inflater.inflate(R.layout.fragment_offersharepage, container, false);}
+        return (ViewGroup) inflater.inflate(R.layout.fragment_presentofferpage, container, false);}
     
 }

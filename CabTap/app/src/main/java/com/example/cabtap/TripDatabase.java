@@ -149,7 +149,7 @@ public class TripDatabase {
     }
 
     protected static TripInformation CheckOffersToMe(String username){
-        Task query = firestore.collection("offers").whereEqualTo("username", username).get();
+        Task query = firestore.collection("offers").document(username).get();
         while (!query.isComplete());
         DocumentSnapshot queryRes = (DocumentSnapshot) query.getResult();
         TripInformation trip = queryRes.toObject(TripInformation.class);
