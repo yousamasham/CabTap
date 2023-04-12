@@ -19,8 +19,14 @@ public class DispatcherController {
     }
 
     //Database recieves ride request
-    protected void recieveRideRequest(TripInformation ride){
-        TripDatabase.InsertRequest(ride);
+    protected void recieveRideRequest(TripInformation ride) throws Exception {
+        try {
+            TripDatabase db = new TripDatabase();
+            db.InsertRequest(ride);
+        }
+        catch(Exception E){
+            throw E;
+        }
     }
 
     //Sends request to user then informs requestee of the result

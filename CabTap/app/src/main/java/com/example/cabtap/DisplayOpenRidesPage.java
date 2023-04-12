@@ -19,7 +19,7 @@ import java.util.ArrayList;
 public class DisplayOpenRidesPage extends AppCompatActivity {
     RecyclerView recyclerView;
     RecyclerAdapter recyclerAdapter;
-    static ArrayList<TripInformation> openRides;
+    static ArrayList<TripInformation> openRides = new ArrayList<TripInformation>();
     SwipeRefreshLayout swipeRefreshLayout;
     DispatcherController controller = new DispatcherController();
 

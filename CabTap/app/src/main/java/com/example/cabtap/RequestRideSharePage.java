@@ -67,8 +67,12 @@ public class RequestRideSharePage extends Fragment {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     trip.setDate(LocalDate.parse(date.getText().toString()));
                 }
-                controller.recieveRideRequest(trip);
-
+                trip.setUsername(username);
+                try {
+                    controller.recieveRideRequest(trip);
+                }
+                catch(Exception E){
+                }
                 Intent intent = new Intent(getActivity(), DisplayOpenRidesPage.class);
                 intent.putExtra("username", username);
                 startActivity(intent);
