@@ -73,7 +73,6 @@
             android:background="@drawable/et_custom"
             android:fontFamily="@font/roboto_regular"
             android:hint="Date"
-            android:inputType="textPassword"
             android:padding="15dp"
             android:textSize="15sp" />
 
@@ -86,7 +85,6 @@
             android:background="@drawable/et_custom"
             android:fontFamily="@font/roboto_regular"
             android:hint="Time"
-            android:inputType="textPassword"
             android:padding="15dp"
             android:textSize="15sp" />
 

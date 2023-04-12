@@ -27,6 +27,7 @@ public class OfferRideSharePage extends Fragment {
     DispatcherController controller = new DispatcherController();
 
 
+
     public static OfferRideSharePage newInstance(SessionDetails profile) {
         OfferRideSharePage fragment = new OfferRideSharePage();
         Bundle args = new Bundle();

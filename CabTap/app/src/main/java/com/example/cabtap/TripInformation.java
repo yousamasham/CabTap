@@ -1,4 +1,5 @@
 package com.example.cabtap;
+import java.sql.Array;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -10,7 +11,7 @@ public class TripInformation {
     protected LocalTime rideTime;
     protected float rideFare;
     protected int capacity;
-    protected ArrayList<String> usersEncountered;
+    protected ArrayList<String> usersEncountered = new ArrayList<String>();
     protected LocalDate rideDate;
     protected String username;
 
