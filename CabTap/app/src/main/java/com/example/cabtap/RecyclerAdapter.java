@@ -31,9 +31,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     // map data inside each item
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.dropOffTextView.setText(openRides.get(position).destination);
-        holder.approxTimeTextView.setText(openRides.get(position).rideTime);
-        holder.approxSavingsTextView.setText(openRides.get(position).rideFare);
+        holder.approxTimeTextView.setText(Integer.valueOf(openRides.get(position).rideTime.toString()));
+        holder.approxSavingsTextView.setText(Float.toString(openRides.get(position).rideFare));
     }
 
     @Override

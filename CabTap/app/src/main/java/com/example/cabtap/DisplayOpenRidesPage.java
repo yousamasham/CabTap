@@ -65,17 +65,14 @@ public class DisplayOpenRidesPage extends AppCompatActivity {
             switch (direction) {
                 //request this ride = swipe left
                 case ItemTouchHelper.LEFT:
-
-                    Fragment fragment = WaitForAccept.newInstance();
-                    replaceFragment(fragment);
-
+                    openRides.remove(position);
+                    // display popup
                     if(controller.pairRiders(openRides.get(position), username)){
-                        Intent intentTransit = new Intent(getActivity(), InTransitPage.class);
+                        Intent intentTransit = new Intent(DisplayOpenRidesPage.this, InTransitPage.class);
                         startActivity(intentTransit);
                     }
                     else{
-                        Intent intentRides = new Intent(getActivity(), DisplayOpenRidesPage.class);
-                        startActivity(intentRides);
+                        //remove popup
                     }
                     break;
                 //reject = swipe right
@@ -88,7 +85,7 @@ public class DisplayOpenRidesPage extends AppCompatActivity {
     };
 
     private void replaceFragment(Fragment fragment) {
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.frame_layout, fragment);
         fragmentTransaction.commit();
