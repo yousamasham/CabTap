@@ -1,4 +1,5 @@
 package com.example.cabtap;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -22,6 +23,7 @@ public class OfferRideSharePage extends Fragment {
     // private roadmap map;
     EditText availableSeats;
     Button submit;
+    Button cheat;
     private LocalTime approxTime;
     private int approxSaving;
     DispatcherController controller = new DispatcherController();
@@ -42,6 +44,7 @@ public class OfferRideSharePage extends Fragment {
         dropOff = getView().findViewById(R.id.et_dropOff);
         availableSeats = getView().findViewById(R.id.et_availableSeats);
         submit = getView().findViewById(R.id.btn_submit);
+        cheat = getView().findViewById(R.id.btn_cheat);
 
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,6 +89,18 @@ public class OfferRideSharePage extends Fragment {
 
                 Fragment fragment = PresentOfferPage.newInstance(sessionDetails);
                 replaceFragment(fragment);
+            }
+        });
+
+        cheat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view){
+                Intent intent = new Intent(getActivity(), InTransitPage.class);
+                intent.putExtra("origin", "McMaster University");
+                intent.putExtra("destination", "Hamilton GO station");
+                intent.putExtra("pickup", "131 Winston Avenue, Hamilton");
+                intent.putExtra("dropoff", "21 Arkell Street, Hamilton");
+                startActivity(intent);
             }
         });
     }

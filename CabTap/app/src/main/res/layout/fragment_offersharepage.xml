@@ -55,5 +55,13 @@
             android:layout_marginRight="20dp"
             android:text="Submit" />
 
+        <Button
+            android:id="@+id/btn_cheat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:text="Example" />
+
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

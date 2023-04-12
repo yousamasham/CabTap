@@ -39,6 +39,7 @@ public class MapAssist {
 
     public MapAssist(Context context) {
         this.context = context;
+        geocoder = new Geocoder(context);
     }
 
     // See above methods for short descriptions, some are commented, some aren't.
