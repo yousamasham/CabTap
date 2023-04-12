@@ -24,6 +24,7 @@ public class OfferRideSharePage extends Fragment {
     Button submit;
     private LocalTime approxTime;
     private int approxSaving;
+    DispatcherController controller = new DispatcherController();
 
 
     public static OfferRideSharePage newInstance(SessionDetails profile) {
