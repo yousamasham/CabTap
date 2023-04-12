@@ -9,8 +9,30 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.fragment.app.Fragment;
+
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
+
+import java.util.ArrayList;
 import java.util.List;
 
+public class PresentOfferPage extends Fragment {
+
+    Button accept;
+    Button reject;
+    TextView dropOff, approxTime, approxSavings, pickup;
+    DispatcherController controller = new DispatcherController();
+    
+    public static PresentOfferPage newInstance(SessionDetails profile) {
+        PresentOfferPage fragment = new PresentOfferPage();
+        Bundle args = new Bundle();
+        args.putString("username", profile.getSessionUsername());
+        fragment.setArguments(args);
+        return fragment;
+    }    
 
 public class PresentOfferPage extends AppCompatActivity {
     RecyclerView recyclerView;
@@ -18,55 +40,52 @@ public class PresentOfferPage extends AppCompatActivity {
     List<List<String>> requestedRides; // modify to correct type
     SwipeRefreshLayout swipeRefreshLayout;
     @Override
-    public void onCreate(Bundle savedInstanceState){
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_presentofferpage);
-        recyclerView = findViewById(R.id.recyclerView);
-        recyclerAdapter = new RecyclerAdapter(requestedRides);
+    public void onViewCreated(View view, Bundle savedInstanceState ){
+        Bundle args = getArguments();
+        accept = (Button) getView().findViewById(R.id.btn_accept);
+        reject = (Button) getView().findViewById(R.id.btn_reject);
+        pickup = (TextView) getView().findViewById(R.id.pickupText_View);
+        dropOff = (TextView) getView().findViewById(R.id.dropOffText_View);
+        approxTime = (TextView) getView().findViewById(R.id.rideTimeText_View);
+        approxSavings = (TextView) getView().findViewById(R.id.savingsText_View);
+        String username = args.getString("username");
+        TripDatabase tripDB = null;
+        try {
+            tripDB = new TripDatabase();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        TripInformation ride = tripDB.CheckOffersToMe(username);
+        //setting each field to display certain info
+        populateFields(ride);
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(recyclerAdapter);
-
-        // now adds lines to seperate each item
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
-        recyclerView.addItemDecoration((dividerItemDecoration));
-
-        // get list of available requests from dispatcher and store in the requestedRides list
-
-        swipeRefreshLayout = findViewById((R.id.swipeRefreshLayout));
-        swipeRefreshLayout.setOnRefreshListener((new SwipeRefreshLayout.OnRefreshListener() {
+        TripDatabase finalTripDB = tripDB;
+        accept.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onRefresh() {
-                // get list of open rides and their info from dispatcher again (call dispatcher to
-                // to give info and add it into requestedRides.
-                // requestedRides.add(Dispatcher.getRides())
-                recyclerAdapter.notifyDataSetChanged();
-                swipeRefreshLayout.setRefreshing(false);
+            public void onClick(View view) {
+                finalTripDB.ChangeOfferAcceptanceState(username, true);
+                TripInformation ride = finalTripDB.CheckOffersToMe(username);
+                populateFields(ride);
             }
-        }));
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
-        itemTouchHelper.attachToRecyclerView(recyclerView);
+        });
+        reject.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finalTripDB.ChangeOfferAcceptanceState(username, false);
+                TripInformation ride = finalTripDB.CheckOffersToMe(username);
+            }
+        });
     }
-    ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
-        @Override
-        public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-            return false;
-        }
-        @Override
-        public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-            int position = viewHolder.getAdapterPosition();
-            switch (direction) {
-                //accept = swipe left
-                case ItemTouchHelper.LEFT:
-                    //Intent intent = new Intent(getActivity(), InTransitPage.class); //need to create in transit page
-                    //call dispatcher to pair the riders tg
-                    break;
-                //reject = swipe right
-                case ItemTouchHelper.RIGHT:
-                    requestedRides.remove(position);
-                    recyclerAdapter.notifyItemRemoved(position);
-                    break;
-            }
-        }
-    };
+
+    private void populateFields(TripInformation ride){
+        pickup.setText(ride.pickupLocation);
+        dropOff.setText(ride.destination);
+        approxTime.setText(ride.rideTime.toString());
+        approxSavings.setText(Float.toString(ride.rideFare));
+    }
+
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return (ViewGroup) inflater.inflate(R.layout.fragment_offersharepage, container, false);}
+    
+    }
 }

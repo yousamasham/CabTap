@@ -34,4 +34,5 @@ public class SessionDetails implements Serializable {
     protected String getSessionTripsCompleted(){
         return this.account.get(ProfileField.TRIPSCOMPLETED.ordinal());
     }
+
 }

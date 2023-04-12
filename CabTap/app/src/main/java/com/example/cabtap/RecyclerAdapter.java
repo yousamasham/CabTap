@@ -7,6 +7,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder>{
@@ -30,10 +31,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     // map data inside each item
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        //holder.pickupTextView.setText(requestedRides.get(position.get(0))); //dispatcher offers list[0] (will be the pickup locations)
-        //holder.dropOffTextView.setText(requestedRides.get(position.get(0)); //dispatcher offers list[1] (will be the dropoff locations)
-        //holder.approxTimeTextView.setText(requestedRides.get(position.get(0)); //dispatcher offers list[2] (will be the approx time)
-        //holder.approxSavingsTextView.setText(requestedRides.get(position.get(0)); //dispatcher offers list[3] (will be the approx savings)
+        holder.approxTimeTextView.setText(Integer.valueOf(openRides.get(position).rideTime.toString()));
+        holder.approxSavingsTextView.setText(Float.toString(openRides.get(position).rideFare));
     }
 
     @Override
@@ -57,10 +56,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             //itemView.setOnClickListener(this);
         }
 
-        //@Override
-        //public void onClick(View view) {
-        //    Toast.makeText(view.getContext(getAdapterPosition()), requestedRides.get(), Toast)
-        //}
     }
 
 }

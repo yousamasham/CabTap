@@ -1,4 +1,6 @@
 package com.example.cabtap;
+
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
@@ -9,6 +11,9 @@ public class TripInformation {
     protected float rideFare;
     protected int capacity;
     protected ArrayList<String> usersEncountered;
+    protected LocalDate rideDate;
+    protected String username;
+
 
     public TripInformation(String pickupLocation, String destination, String username, int desiredCap){
         this.pickupLocation = pickupLocation;
@@ -23,6 +28,14 @@ public class TripInformation {
 
     protected String getPickupLocation(){
         return pickupLocation;
+    }
+
+    protected void setDate(LocalDate date){
+        rideDate = date;
+    }
+
+    protected String getDate(){
+        return rideDate.toString();
     }
 
     protected void setDestination(String dest){

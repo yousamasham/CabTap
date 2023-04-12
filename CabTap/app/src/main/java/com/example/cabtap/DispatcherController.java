@@ -3,16 +3,14 @@ import java.util.ArrayList;
 
 public class DispatcherController {
 
-    ArrayList<TripInformation> rideRequests = new ArrayList<TripInformation>();
-
-    // user submits requests a ride
-    private void setRideRequests(String arrivalTime, String dropOff, String pickup){
-        // gets requests from request Ride share Page
+    //Ride in progress has been offered to share
+    protected void setRideOffer(TripInformation ride){
+        TripDatabase.InsertTrip(ride);
+        sendRideShareOffer(ride);
     }
 
     private void removeRequestRide(TripInformation ride){
-        rideRequests.remove(ride);
-        // either 
+        TripDatabase.RemoveRequest(ride.getUsername());
     }
 
     private void sendRideShareOffer(TripInformation ride){
@@ -23,8 +21,20 @@ public class DispatcherController {
         // gets from offerRideSharePage
     }
 
-    protected void pairRiders(){
-        // calls getRides(), recieveRideShareOffer(), and the answer of the offerer
+    //Sends request to user then informs requestee of the result
+    protected boolean pairRiders(TripInformation ride, String username){
+        TripInformation tripRequested = TripDatabase.GetRequest(username);
+        TripDatabase.PushOffer(ride.getUsername(), tripRequested);
+        while(Boolean.valueOf(TripDatabase.CheckOffer(tripRequested)) == null){};
+        if(Boolean.valueOf(TripDatabase.CheckOffer(tripRequested))){
+            TripDatabase.RemoveRequest(username);
+            TripDatabase.RemoveOffer(username);
+            return true;
+        }
+        else{
+            TripDatabase.RemoveOffer(username);
+            return false; 
+        }
     }
 
     protected ArrayList<TripInformation> getRides(){
